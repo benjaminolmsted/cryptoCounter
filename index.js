@@ -123,16 +123,45 @@ function renderList(data) {
         const coinID = event.target.value
         let coinFinder = data.find(element => coinID === element.id)
         dropdownImgLeft.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
+        renderCoinDetails(coinFinder, 'left')
     })
 
     rightDropdown.addEventListener('change', event => {            
         const coinID = event.target.value
         let coinFinder = data.find(element => coinID === element.id)
         dropdownImgRight.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
+        renderCoinDetails(coinFinder, 'right')
     })
+
+    let event = new Event('change');
+    leftDropdown.dispatchEvent(event);
+    rightDropdown.dispatchEvent(event);
 }
 
+function renderCoinDetails(coin, side){
+    document.querySelector(`#${side}-btn`).textContent = `Learn more about ${coin.name}`
+    document.querySelector(`#${side}-price-div p`).textContent = `$${coin.current_price.toFixed(2)}`
+    let arrow = document.querySelector(`#${side}-price-div span:first-child`)
+    let changeDiv = document.querySelector(`#${side}-price-div .trending-price-change`)
+    if(coin.price_change_percentage_24h <= 0){
+        changeDiv.classList.add('red')
+        changeDiv.classList.remove('green')
+        arrow.innerHTML = `&#9660`
+    }else{
+        changeDiv.classList.add('green')
+        changeDiv.classList.remove('red')
+        arrow.innerHTML = `&#9650`
+    }
+    document.querySelector(`#${side}-price-div span:last-child`).textContent = coin.price_change_percentage_24h.toFixed(2) + '%'
 
+    document.querySelector(`#${side}-market-cap`).textContent = '$' + coin.market_cap
+    document.querySelector(`#${side}-volume`).textContent = '$' + coin.total_volume
+    document.querySelector(`#${side}-circulating-supply`).textContent = coin.circulating_supply
+    document.querySelector(`#${side}-24-high`).textContent = '$' + coin.high_24h
+    document.querySelector(`#${side}-24-low`).textContent = '$' + coin.low_24h
+    document.querySelector(`#${side}-ath`).textContent = '$' + coin.ath
+    document.querySelector(`#${side}-atl`).textContent = '$' + coin.atl
+}
 
 // Event listener to change image in the dropdow
 // leftDropdown.addEventListener('change', event => {
