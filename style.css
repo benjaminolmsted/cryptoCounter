@@ -1,0 +1,343 @@
+/* Global Style */
+
+body {
+    background-color: #222;
+    color: white;
+    margin: 40px;
+}
+
+.label {
+    font-family: 'Monument Grotesk Semi-Mono';
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding-bottom: 24px;
+}
+
+.title-header {
+    font-family: 'Monument Grotesk';
+    font-size: 18px;
+    font-weight: 600;
+    padding-bottom: 32px;
+    text-align: center;
+}
+
+.title-description {
+    font-family: 'Open Sans';
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+/* Header Style */
+header {
+    border: 1px #333 solid;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+}
+
+header > * {
+    flex: 1 1 40%
+}
+
+h1 {
+    color: #0272FA;
+    text-align: left;
+}
+
+#time {
+    text-align: right;
+    color: #0272FA;
+}
+
+/* Main Container Style */
+#main-container {
+    display: flex;
+    margin-top: 40px;
+    overflow: auto;
+}
+
+/* Trending Section Style */
+
+#trending-container {
+    border-radius: 10px;
+    padding: 32px;
+    background-color: #333;
+    float: left;
+    width: calc(35vw - 40px);
+    margin-right: 4vw;
+}
+
+.trending-list-li {
+    padding: 24px 0;
+    border-bottom: 1px solid #888;
+    overflow: auto;
+}
+
+.trending-list-li:last-child {
+    border-bottom: 0;
+}
+
+.trending-name {
+    float: left;
+}
+
+.trending-num {
+    font-family: 'Monument Grotesk Semi-Mono';
+    color: #888;
+    font-size: 18px;
+    margin-right: 24px;
+    float: left;
+    margin-top: 4px;
+}
+
+.trending-img {
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50px;
+    float: left;
+    margin-right: 8px;
+
+}
+
+.trending-coin {
+    font-family: 'Monument Grotesk';
+    font-size: 18px;
+    font-weight: 600;
+    padding-bottom: 24px;
+    margin-top: 4px;
+    text-align: center;
+    float: left;
+}
+
+.trending-price-change {
+    font-family: 'Monument Grotesk Semi-Mono';
+    font-size: 18px;
+    padding-top: 4px;
+    color: #0AFB83;
+    padding-bottom: 16px;
+}
+
+#trending-container .trending-price-change {
+    float: right;
+}
+
+/* Compare Section Style */
+
+#compare-container {
+    float: left;
+    width: calc(71vw - 80px);
+}
+
+#compare-dropdown-container {
+    margin: 40px 0 24px;
+}
+
+.compare-dropdown {
+    width: calc(50% - 12px);
+    background-color: transparent;
+    border-radius: 10px;
+    border: 2px solid #333;
+    color: white;
+    font-family: 'Monument Grotesk';
+    font-size: 18px;
+    font-weight: 600;
+    padding: 0px 16px 16px 72px;
+    background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png);
+    background-size: 32px 32px;
+    background-repeat: no-repeat;
+    background-position: left+24px center;
+}
+
+/* select.compare-dropdown {
+   color: white;
+} */
+
+#compare-form select:first-child {
+    margin-right: 20px;
+}
+
+.info-header {
+    font-family: 'Monument Grotesk Semi-Mono';
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding-bottom: 24px;
+    color: #888;
+    border-bottom: 1px solid #888;
+    margin-bottom: 8px;
+}
+
+.compare-info {
+    margin-bottom: 24px;
+}
+
+.compare-info .trending-price-change {
+    padding-bottom: 40px;
+}
+
+.clearfix:after{
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+
+.info-modal-btn {
+    cursor: pointer;
+    background-color: #222;
+    border-radius: 10px;
+    text-align: center;
+    color: #0272FA;
+    border: none;
+    font-family: 'Monument Grotesk';
+    font-weight: 600;
+    letter-spacing: -1px;
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.info-split {
+    float: left;
+    width: calc(50% - 12px);
+}
+
+.info-separate {
+    margin-right: 24px;
+}
+
+.compare-large-text {
+    font-family: 'Monument Grotesk Semi-Mono';
+    font-size: 32px;
+    letter-spacing: -1px;
+    padding-bottom: 24px;
+}
+
+/* Modal Style */
+
+.bg {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    overflow: none;
+    transition: .5s;
+}
+
+.w3-modal {
+    background-color: #333;
+    border-radius: 10px;
+    width: 50vw;
+    height: 75vh;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+}
+
+.w3-container, .w3-panel {
+    background: #333;
+    width: calc(50vw - 80px);
+}
+
+.w3-modal-content {
+    background-color: #333;
+}
+
+.w3-display-topright {
+    position: fixed;
+    right: 24px;
+    top: 24px;
+    font-size: 34px;    
+}
+
+.modal-img {
+    height: 80px;
+    width: 80px;
+    border-radius: 100px;
+    margin-bottom: 8px;
+}
+
+.modal-header {
+    font-family: 'Monument Grotesk';
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.modal-header-price {
+    font-family: 'Monument Grotesk Semi-Mono';
+    text-transform: uppercase;
+    font-size: 18px;
+    letter-spacing: 1px;
+    padding-bottom: 24px;
+}
+
+.modal-header-ticker {
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: #888;
+    margin-left: 24px;
+}
+
+.w3-button:hover {
+    color: white !important;
+    background-color: #333!important;
+}
+
+.modal-description {
+    font-family: 'Open Sans';
+    font-size: 14px;
+    line-height: 150%;
+}
+
+.modal-fomo {
+    margin-top: 120px;
+}
+
+.modal-fomo p {
+    font-family: 'Open Sans';
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 140%;
+    color: #0272FA;
+}
+
+/* Footer Style */
+
+footer {
+    margin-top: 80px;
+    border-top: 1px solid #333;
+    padding-top: 40px;
+    font-family: 'Open Sans';
+    font-size: 14px;
+}
+
+/* Media Queries */
+
+@media only screen and (max-width: 1080px) {
+    #main-container {
+        display: block;
+        margin-top: 24px;
+    }
+        
+    #trending-container {
+        display: block;
+        float: none;
+        width: 100%;
+        margin-right: 0px;
+        margin-bottom: 40px;
+    }
+
+    #compare-container {
+        display: block;
+        float: none;
+        width: 100%;
+        margin-right: 0px;
+        margin-bottom: 40px;
+    }
+  }
