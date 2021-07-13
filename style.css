@@ -117,6 +117,10 @@ h1 {
     font-size: 18px;
     padding-top: 4px;
     color: #0AFB83;
+    padding-bottom: 16px;
+}
+
+#trending-container .trending-price-change {
     float: right;
 }
 
@@ -170,6 +174,10 @@ h1 {
     margin-bottom: 24px;
 }
 
+.compare-info .trending-price-change {
+    padding-bottom: 40px;
+}
+
 .clearfix:after{
     content:".";
     display:block;
@@ -206,11 +214,6 @@ h1 {
     font-size: 32px;
     letter-spacing: -1px;
     padding-bottom: 24px;
-}
-
-.compare-info .trending-price-change {
-    float: none;
-    padding-bottom: 16px;
 }
 
 /* Modal Style */
@@ -262,7 +265,15 @@ h1 {
     font-family: 'Monument Grotesk';
     font-size: 24px;
     font-weight: 600;
-    margin-bottom: 40px;
+    margin-bottom: 16px;
+}
+
+.modal-header-price {
+    font-family: 'Monument Grotesk Semi-Mono';
+    text-transform: uppercase;
+    font-size: 18px;
+    letter-spacing: 1px;
+    padding-bottom: 24px;
 }
 
 .modal-header-ticker {
