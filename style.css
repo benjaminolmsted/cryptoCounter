@@ -151,10 +151,10 @@ h1 {
     font-size: 18px;
     font-weight: 600;
     padding: 0px 16px 16px 72px;
-    background-image:url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png);
-    background-size: 32px 32px;
+    background: no-repeat 24px 20px/32px url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png);
+    /* background-size: 32px 32px;
     background-repeat: no-repeat;
-    background-position: left+24px center;
+    background-position: left+24px center; */
 }
 
 /* select.compare-dropdown {
