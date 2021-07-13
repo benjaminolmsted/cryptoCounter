@@ -13,11 +13,9 @@ const marketsQuery = '?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&
 const body = document.querySelector('body')
 const trendingList = document.querySelector('#trending-list-ul')
 
-
-
 /*entry point to app*/
 getTrending()
-//GetList()
+GetList()
 
 /*fetches*/
 
@@ -31,6 +29,7 @@ function GetList(){
     fetch(baseURL + marketsEndpoint + marketsQuery)
     .then(resp => resp.json())
     .then(json => {
+        renderList(json)
         console.log(json)
     })
     
@@ -84,7 +83,6 @@ function renderTrendingCoin(coin, numRank){
         let percentChange = coinDetail.market_data.price_change_percentage_24h
         percentChange = percentChange.toFixed(2)
         percentSpan.textContent = percentChange + '%'
-        console.log(percentChange)
         if(percentChange <= 0){
             priceDiv.classList.add('red')
             arrowSpan.innerHTML = `&#9660`
@@ -95,12 +93,59 @@ function renderTrendingCoin(coin, numRank){
     })
 }
 
-
 function getCoinDetails(id){
     fetch(baseURL + coinsEndpoint + id)
     .then(resp => resp.json())
     .then((console.log))
 }
+
+function renderList(data) {
+    let leftDropdown = document.querySelector('#dropdown-left')
+    let rightDropdown = document.querySelector('#dropdown-right')
+    let dropdownImgRight = document.querySelector('#dropdown-right')
+    let dropdownImgLeft = document.querySelector('#dropdown-left')
+    
+    data.forEach(element => {
+        let dropdownOptionRight = document.createElement('option')
+        let dropdownOptionLeft = document.createElement('option')
+        
+        dropdownOptionRight.value = element.id
+        dropdownOptionRight.textContent = element.name
+        dropdownOptionLeft.value = element.id
+        dropdownOptionLeft.textContent = element.name
+
+        leftDropdown.appendChild(dropdownOptionLeft)
+        rightDropdown.appendChild(dropdownOptionRight)
+    })   
+
+    // Event listener to change image in the dropdown
+    leftDropdown.addEventListener('change', event => {            
+        const coinID = event.target.value
+        let coinFinder = data.find(element => coinID === element.id)
+        dropdownImgLeft.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
+    })
+
+    rightDropdown.addEventListener('change', event => {            
+        const coinID = event.target.value
+        let coinFinder = data.find(element => coinID === element.id)
+        dropdownImgRight.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
+    })
+}
+
+
+
+// Event listener to change image in the dropdow
+// leftDropdown.addEventListener('change', event => {
+//     dropdownChange(event, element)
+// })
+
+// function dropdownChange (event) {
+//     // console.log(event.target.value)
+//     console.log(event)
+
+// }
+
+// Add event selector on the "select" form to listen for changes. When changed, the associated background-image should be replaced by the crypto image URL
 
 
 
