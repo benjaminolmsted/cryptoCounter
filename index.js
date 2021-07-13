@@ -11,13 +11,13 @@ const marketsQuery = '?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&
 
 /* document selectors */
 const body = document.querySelector('body')
+const trendingList = document.querySelector('#trending-list-ul')
 
-/*this is a hack*/
-const coinArray = [];
+
 
 /*entry point to app*/
 getTrending()
-GetList()
+//GetList()
 
 /*fetches*/
 
@@ -49,29 +49,57 @@ function renderTrending(trendingJSON){
     trendingJSON.coins.forEach(coin => renderTrendingCoin(coin.item))
 }
 
+function renderTrendingCoin(coin, numRank){
+    let listLi = document.createElement('li')
+    let numberSpan = document.createElement('span')
+    let trendingName = document.createElement('div')
+    let coinImg = document.createElement('img')
+    let coinName = document.createElement('h4')
+    let priceDiv = document.createElement('div')
+    let arrowSpan = document.createElement('span')
+    let percentSpan = document.createElement('span')
 
-// function renderCoin(coin){
-//     console.log(coin)
-//     let div = document.createElement('div')
-//     let h1Name = document.createElement('h1')
-//     let h2Price = document.createElement('h2')
-//     let img = document.createElement('img')
-//     h1Name.textContent = coin.name
-//     h2Price = coin.price_btc
-//     img.src = coin.small
+    trendingName.append(coinImg, coinName)
+    priceDiv.append(arrowSpan, percentSpan)
+    listLi.append(numberSpan, trendingName, priceDiv)
+    trendingList.append(listLi)
 
-//     div.dataset.id = coin.id
-//     div.addEventListener('click', (e)=>{
-//        getCoinDetails(e.currentTarget.dataset.id)
-//     })
-//     div.append(h1Name, h2Price, img)
-//     body.append(div)
-// }
+    listLi.className = 'trending-list-li'
+    numberSpan.className= 'trending-num'
+    trendingName.className = 'trending-name'
+    coinImg.className = 'trending-img'
+    coinName.className = 'trending-coin'
+    priceDiv.className = 'trending-price-change'
+    arrowSpan.className = 'trending-arrow'
+    percentSpan.className = 'trending-percent'
+
+    numberSpan.textContent = '0' + (coin.score + 1)
+    coinImg.src = coin.small
+    coinName.textContent = coin.name
+    
+    //gotta fetch the details then set percent change
+    fetch(baseURL + coinsEndpoint + coin.id)
+    .then(resp => resp.json())
+    .then((coinDetail) => {
+        let percentChange = coinDetail.market_data.price_change_percentage_24h
+        percentChange = percentChange.toFixed(2)
+        percentSpan.textContent = percentChange + '%'
+        console.log(percentChange)
+        if(percentChange <= 0){
+            priceDiv.classList.add('red')
+            arrowSpan.innerHTML = `&#9660`
+        }else{
+            priceDiv.classList.add('green')
+            arrowSpan.innerHTML = `&#9650`
+        }
+    })
+}
+
 
 function getCoinDetails(id){
     fetch(baseURL + coinsEndpoint + id)
     .then(resp => resp.json())
-    .then(console.log)
+    .then((console.log))
 }
 
 
