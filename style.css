@@ -65,15 +65,37 @@ h1 {
     overflow: auto;
 }
 
-/* Trending Section Style */
+/* Left Side Style */
 
-#trending-container {
-    border-radius: 10px;
-    padding: 32px;
-    background-color: #333;
+#left-side-container {
     float: left;
     width: calc(35vw - 40px);
     margin-right: 4vw;
+
+}
+
+#trending-container, #fomo-container {
+    border-radius: 10px;
+    background-color: #333;
+    padding: 32px;
+    margin-bottom: 24px;
+}
+
+.fomo-form {
+    font-family: 'Monument Grotesk';
+    font-size: 18px;
+    color: #0272FA;
+    text-align: center;
+}
+
+.fomo-form input {
+    background-color: transparent;
+    color: #ccc;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    height: 40px;
+    width: 120px;
+    text-align: center;;
 }
 
 .trending-list-li {
@@ -152,14 +174,8 @@ h1 {
     font-weight: 600;
     padding: 0px 16px 16px 72px;
     background: no-repeat 24px 20px/32px url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png);
-    /* background-size: 32px 32px;
-    background-repeat: no-repeat;
-    background-position: left+24px center; */
-}
 
-/* select.compare-dropdown {
-   color: white;
-} */
+}
 
 #compare-form select:first-child {
     margin-right: 20px;
@@ -331,7 +347,7 @@ footer {
         margin-top: 24px;
     }
         
-    #trending-container {
+    #left-side-container {
         display: block;
         float: none;
         width: 100%;
