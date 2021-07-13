@@ -6,6 +6,7 @@ const trendingEndpoint = '/search/trending'
 const coinsEndpoint = '/coins/'
 const listEndpoint = '/coins/list'
 const marketsEndpoint = '/coins/markets'
+const oldDate = '/coins/bitcoin/history?date='
 
 const marketsQuery = '?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false&price_change_percentage=24h'
 
@@ -31,8 +32,7 @@ function GetList(){
     .then(json => {
         renderList(json)
         console.log(json)
-    })
-    
+    })   
 }
 
 function getCoinDetails(id){
@@ -163,22 +163,6 @@ function renderCoinDetails(coin, side){
     document.querySelector(`#${side}-atl`).textContent = '$' + coin.atl
 }
 
-// Event listener to change image in the dropdow
-// leftDropdown.addEventListener('change', event => {
-//     dropdownChange(event, element)
-// })
-
-// function dropdownChange (event) {
-//     // console.log(event.target.value)
-//     console.log(event)
-
-// }
-
-// Add event selector on the "select" form to listen for changes. When changed, the associated background-image should be replaced by the crypto image URL
-
-
-
-
 // Animation for timer
 function checkTime(i) {
     if (i < 10) {
@@ -213,7 +197,29 @@ document.querySelector('.w3-display-topright').addEventListener('click', () => {
     document.querySelector('.bg').style.filter='none';
 })
 
+document.querySelector('.fomo-form').addEventListener('change', e => {
+    let inputAmount = e.currentTarget.fomoDollars.value
+    let priceOldBefore = e.currentTarget.startDate.value.split('-')
+    let priceOldDate = `${priceOldBefore[2]}-${priceOldBefore[1]}-${priceOldBefore[0]}`
+    let priceToday = e.currentTarget.
+
+    fetch(baseURL+oldDate+priceOldDate)
+    .then(resp => resp.json())
+    .then(json => {
+        let priceOldAmount = json.market_data.current_price.usd
+        
+        // This is the equation
+        // (input_amount / price_at_chosen_date) * price_today
+        document.querySelector('.fomo-output').textContent = '$' + (inputAmount/priceOldAmount * )
+    })
+})
+
+document.querySelector('.fomo-form').addEventListener('submit', e => {
+    e.preventDefault()
+
+    console.log(e)
+})
+
 function renderFullCoin(coin){
     console.log(coin)
 }
-

@@ -31,9 +31,9 @@
             <p class="modal-description">The world’s first cryptocurrency, Bitcoin is stored and exchanged securely on the internet through a digital ledger known as a blockchain. Bitcoins are divisible into smaller units known as satoshis — each satoshi is worth 0.00000001 bitcoin.</p>
             
 
-            <div class="modal-fomo">
+            <!-- <div class="modal-fomo">
                 <p>If you invested <span>_____</span> in BTC on <span>______</span>, you investment would be <span>_____</span>.</p>
-            </div>
+            </div> -->
         </div>
         </div>
     </div>
@@ -45,14 +45,25 @@
     </header>
 
     <div id="main-container">
-        <div id="trending-container">
-            <h2 class="title-header">Trending in Crypto</h2>
-            <p class="title-description">The top searched coins in the last 24 hours.</p>
+        <div id="left-side-container">
+            <div id="fomo-container">
+                <h2 class="title-header">What If...</h2>
 
-            <ul id="trending-list-ul">
-                
-            </ul>
+                <form class="fomo-form">
+                    <p>If you invested <span><input type="text" id="fomoDollars" name="fomoDollars" placeholder="Amount in USD" value="100" class="fomo-dollars"></span> in BTC on <span><input type="date" id="startDate" name="startDate" placeholder="Start date" value="2013-01-08" class="fomo-date"></span>, you investment would be <span class="fomo-output">$50000</span>.</p>
+                </form>
+            </div>
+    
+            <div id="trending-container">
+                <h2 class="title-header">Trending in Crypto</h2>
+                <p class="title-description">The top searched coins in the last 24 hours.</p>
+    
+                <ul id="trending-list-ul">
+                    
+                </ul>
+            </div>
         </div>
+        
 
         <div id="compare-container">
             <h2 class="title-header">Compare Crypto</h2>
@@ -61,13 +72,9 @@
             <div id="compare-dropdown-container">
                 <form id="compare-form">
                     <select name="coin-left" class="compare-dropdown" id="dropdown-left">
-                        <!-- <option value="bitcoin">Bitcoin</option>
-                        <option value="ethereum">Ethereum</option> -->
                     </select>
 
                     <select name="coin-right" class="compare-dropdown" id="dropdown-right">
-                        <!-- <option value="bitcoin">Ethereum</option>
-                        <option value="ethereum">Bitcoin</option> -->
                     </select>
                 </form>
 
