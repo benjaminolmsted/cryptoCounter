@@ -5,9 +5,15 @@ const baseURL = 'https://api.coingecko.com/api/v3'
 const trendingEndpoint = '/search/trending'
 const coinsEndpoint = '/coins/'
 const listEndpoint = '/coins/list'
+const marketsEndpoint = '/coins/markets'
+
+const marketsQuery = '?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false&price_change_percentage=24h'
 
 /* document selectors */
 const body = document.querySelector('body')
+
+/*this is a hack*/
+const coinArray = [];
 
 /*entry point to app*/
 getTrending()
@@ -22,13 +28,12 @@ function getTrending(){
 }
 
 function GetList(){
-    fetch(baseURL + listEndpoint)
+    fetch(baseURL + marketsEndpoint + marketsQuery)
     .then(resp => resp.json())
     .then(json => {
-        console.log(json.sort( (a,b) => {
-            return a.coingecko_rank -b.coingecko_rank
-        }))
+        console.log(json)
     })
+    
 }
 
 function getCoinDetails(id){
@@ -64,6 +69,7 @@ function renderTrendingCoin(coin){
     div.append(h1Name, h2Price, img)
     body.append(div)
     
+    //we need to grab a little more data to do the price change thing
     fetch(baseURL + coinsEndpoint + coin.id)
     .then(resp => resp.json())
     .then((json) => {
