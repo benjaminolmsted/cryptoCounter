@@ -74,7 +74,13 @@
                 <button class="info-modal-btn info-split" id='right-btn'>Learn more about Ethereum</button>
                 
                 <div class="compare-info clearfix">
-                    <h4 class="info-header">Price Change</h4>
+                    <h4 class="info-header">Price Change 
+                        <span class="price-header-tabs" id="price_change_1year">1 Yr</span>
+                        <span class="price-header-tabs" id="price_change_14days">14 Days</span>
+                        <span class="price-header-tabs" id="price_change_7days">7 Days</span>
+                        <span class="price-header-tabs selected-price-tab" id="price_change_24h">24 Hrs</span>
+                    </h4>
+
                     <div class="info-separate info-split" id="left-price-div">
                         <p class="compare-large-text">$32,962.88</p>
                         <div class="trending-price-change">
@@ -140,7 +146,8 @@
     <div id="fomo-container">
         <form class="fomo-form">
             <h3 class="fomo-header">Have you ever wondered...</h3>
-            <p>If you invested <span><input type="text" id="fomoDollars" name="fomoDollars" placeholder="Amount in USD" value="100" class="fomo-dollars"></span> in <span><select id="chooseCoin" name="chooseCoin" placeholder="Choose your crypto" value="BTC" class="choose-coin"></select></span> on <span><input type="date" id="startDate" name="startDate" placeholder="Start date" value="2019-01-08" class="fomo-date"></span>, your investment would be <span class="fomo-output">$50,000</span>.</p>
+            <p>If you invested $
+                <span><input type="text" id="fomoDollars" name="fomoDollars" placeholder="Amount in USD" value="100" class="fomo-dollars"></span> in <span><select id="chooseCoin" name="chooseCoin" placeholder="Choose your crypto" value="BTC" class="choose-coin"></select></span> on <span><input type="date" id="startDate" name="startDate" placeholder="Start date" value="2019-01-08" class="fomo-date"></span>, your investment would be <span class="fomo-output">$50,000</span> today.</p>
         </form> 
         <img src="" alt="">
     </div>

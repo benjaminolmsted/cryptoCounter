@@ -84,10 +84,6 @@ h1 {
     margin-bottom: 24px;
 }
 
-.trending-arrow {
-    padding-right: 8px;
-}
-
 .w3-modal-content {
     margin: 0;
 }
@@ -108,7 +104,7 @@ h1 {
     color: white;
     margin-top: 24px;
     width: 60%;
-    line-height: 250%;
+    line-height: 200%;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -122,7 +118,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #83b7f5;
     font-size: 20px;
     margin-top: 40px;
-    margin-bottom: 32px;
+    margin-bottom: 16px;
 }
 
 .fomo-form input, .fomo-form select {
@@ -138,7 +134,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-size: 20px;
 }
 
-
 .fomo-output {
     color: #D4FA1B;
 }
@@ -150,13 +145,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
 }
 
+.trending-list-li .trending-arrow {
+    padding-right: 8px;
+}
+
 .trending-list-li:last-child {
     border-bottom: 0;
 }
 
 .trending-name {
     float: left;
-    width: 50%;
+    width: 45%;
 }
 
 .trending-num {
@@ -195,8 +194,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .trending-price-change {
     font-family: 'Monument Grotesk Semi-Mono';
     font-size: 18px;
-    padding-bottom: 32px;
-    width: 30%;
+    width: 40%;
 }
 
 #trending-container .trending-price-change {
@@ -243,6 +241,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #888;
     border-bottom: 1px solid #888;
     margin-bottom: 8px;
+}
+
+.price-header-tabs {
+    color: white;
+    text-transform: uppercase;
+    float: right;
+    margin-left: 16px;
+    cursor: pointer;
+    height: 40px;
+}
+
+.selected-price-tab {
+    color: #0272FA !important;
 }
 
 .compare-info {
@@ -320,6 +331,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background: #333;
     padding: 0;
     width: calc(50vw - 80px);
+    max-height: 75vh;
+}
+
+.w3-container .trending-price-change {
+    margin-bottom: 40px;
 }
 
 .w3-modal-content {
@@ -334,8 +350,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .modal-img {
-    height: 80px;
-    width: 80px;
+    height: 56px;
+    width: 56px;
     border-radius: 100px;
     margin-bottom: 8px;
 }
@@ -372,6 +388,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-family: 'Open Sans';
     font-size: 14px;
     line-height: 150%;
+    padding-bottom: 80px;
 }
 
 .modal-fomo {
@@ -453,7 +470,6 @@ footer {
     }
 
     .trending-price-change {
-        padding-bottom: 24px;
         width: auto;
     }
   }
