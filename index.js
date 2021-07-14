@@ -14,6 +14,8 @@ const marketsQuery = '?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&
 const body = document.querySelector('body')
 const trendingList = document.querySelector('#trending-list-ul')
 
+let dataCache;
+
 /*entry point to app*/
 getTrending()
 GetList()
@@ -30,6 +32,7 @@ function GetList(){
     fetch(baseURL + marketsEndpoint + marketsQuery)
     .then(resp => resp.json())
     .then(json => {
+        cacheJSON(json)
         renderList(json)
         console.log(json)
     })   
@@ -39,6 +42,10 @@ function getCoinDetails(id){
     fetch(baseURL + coinsEndpoint + id)
     .then(resp => resp.json())
     .then(renderFullCoin)
+}
+
+function cacheJSON(json){
+    dataCache = json
 }
 
 /*  Render functions */
@@ -208,12 +215,12 @@ document.querySelector('.fomo-form').addEventListener('change', e => {
     fetch(baseURL+oldDate+priceOldDate)
     .then(resp => resp.json())
     .then(json => {
-        // let priceOldAmount = json.market_data.current_price.usd
+        let priceOldAmount = json.market_data.current_price.usd
         console.log(json)
-        
+        let priceToday = dataCache[0].current_price
         // This is the equation
         // (input_amount / price_at_chosen_date) * price_today
-        document.querySelector('.fomo-output').textContent = '$' + (inputAmount/priceOldAmount * 1)
+        document.querySelector('.fomo-output').textContent = '$' + (inputAmount/priceOldAmount * priceToday)
 
     })
 })
