@@ -28,7 +28,6 @@ getTrending()
 GetList()
 //getMarketChart('bitcoin', 1, 'left')
 /*fetches*/
-
 function getTrending(){
     fetch(baseURL+trendingEndpoint)
     .then(resp => resp.json())
@@ -41,7 +40,6 @@ function GetList(){
     .then(json => {
         cacheJSON(json)
         renderList(json)
-        console.log(json)
     })   
 }
 
@@ -192,7 +190,7 @@ function renderList(data) {
         leftDropdown.appendChild(dropdownOptionLeft)
         rightDropdown.appendChild(dropdownOptionRight)
         dropdownCalc.appendChild(dropdownOptionCalc)
-    })   
+    })
 
     // Event listener to change image in the dropdown
     leftDropdown.addEventListener('change', event => {            
@@ -234,30 +232,31 @@ function renderList(data) {
 }
 
 function renderModal(coinData){
-        console.log(coinData)
-        document.querySelector('.modal-img').src = coinData.image.small
-        console.log(coinData.image)
-        document.querySelector('.modal-header-name').textContent = coinData.name
-        document.querySelector('.modal-header-ticker').textContent = coinData.symbol.toUpperCase()
-        document.querySelector('.w3-container .compare-large-text').textContent = '$' + formatNumber(coinData.market_data.current_price.usd)
-        let changeDiv = document.querySelector('.trending-price-change')
-        let arrow = document.querySelector('.trending-arrow')
-        if(coinData.market_data.price_change_24h <= 0){
-            changeDiv.classList.add('red')
-            changeDiv.classList.remove('green')
-            arrow.innerHTML = `&#9660`
-        }else{
-            changeDiv.classList.add('green')
-            changeDiv.classList.remove('red')
-            arrow.innerHTML = `&#9650`
-        }
-        document.querySelector('.trending-percent').textContent = coinData.market_data.price_change_percentage_24h.toFixed(2) + '%'
-        document.querySelector('.modal-description').innerHTML = coinData.description.en
-    }       
+    console.log(coinData)
+    document.querySelector('.modal-img').src = coinData.image.small
+    console.log(coinData.image)
+    document.querySelector('.modal-header-name').textContent = coinData.name
+    document.querySelector('.modal-header-ticker').textContent = coinData.symbol.toUpperCase()
+    document.querySelector('.w3-container .compare-large-text').textContent = '$' + formatNumber(coinData.market_data.current_price.usd)
+    let changeDiv = document.querySelector('.trending-price-change')
+    let arrow = document.querySelector('.trending-arrow')
+    if(coinData.market_data.price_change_24h <= 0){
+        changeDiv.classList.add('red')
+        changeDiv.classList.remove('green')
+        arrow.innerHTML = `&#9660`
+    }else{
+        changeDiv.classList.add('green')
+        changeDiv.classList.remove('red')
+        arrow.innerHTML = `&#9650`
+    }
+    document.querySelector('.trending-percent').textContent = coinData.market_data.price_change_percentage_24h.toFixed(2) + '%'
+    document.querySelector('.modal-description').innerHTML = coinData.description.en
+}       
 
 function renderCoinDetails(coin, side){
     document.querySelector(`#${side}-btn`).textContent = `Learn more about ${coin.name}`
     document.querySelector(`#${side}-btn`).dataset.id = coin.id
+
     document.querySelector(`#${side}-price-div p`).textContent = `$${formatNumber(coin.current_price.toFixed(2))}`
     let arrow = document.querySelector(`#${side}-price-div span:first-child`)
     let changeDiv = document.querySelector(`#${side}-price-div .trending-price-change`)
@@ -271,7 +270,6 @@ function renderCoinDetails(coin, side){
         arrow.innerHTML = `&#9650`
     }
     document.querySelector(`#${side}-price-div span:last-child`).textContent = coin.price_change_percentage_24h.toFixed(2) + '%'
-
     document.querySelector(`#${side}-market-cap`).textContent = '$' + abbreviate_number(coin.market_cap)
     document.querySelector(`#${side}-volume`).textContent = '$' + abbreviate_number(coin.total_volume)
     document.querySelector(`#${side}-circulating-supply`).textContent = abbreviate_number(coin.circulating_supply)
@@ -335,19 +333,13 @@ document.querySelector('.fomo-form').addEventListener('change', e => {
         }else{
             document.querySelector('.fomo-output').textContent = 'before coin Gecko has data, or before the markets were open for ' + json.name
         }
+
     })
-    
 })
 
 document.querySelector('.fomo-form').addEventListener('submit', e => {
     e.preventDefault()
-
-    console.log(e)
 })
-
-function renderFullCoin(coin){
-    console.log(coin)
-}
 
 // https://blog.abelotech.com/posts/number-currency-formatting-javascript/
 function formatNumber(num) {
@@ -386,4 +378,4 @@ abbreviate_number = function(num, fixed) {
         d = c < 0 ? c : Math.abs(c), // enforce -0 is 0
         e = d + ['', 'K', 'M', 'B', 'T'][k]; // append power
     return e;
-  }
+}
