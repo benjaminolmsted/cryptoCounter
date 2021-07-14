@@ -41,7 +41,7 @@ function GetList(){
 function getCoinDetails(id){
     fetch(baseURL + coinsEndpoint + id)
     .then(resp => resp.json())
-    .then(renderFullCoin)
+    .then(renderModal)
 }
 
 function cacheJSON(json){
@@ -105,18 +105,24 @@ function renderList(data) {
     let rightDropdown = document.querySelector('#dropdown-right')
     let dropdownImgRight = document.querySelector('#dropdown-right')
     let dropdownImgLeft = document.querySelector('#dropdown-left')
+    let dropdownCalc = document.querySelector('.choose-coin')
     
     data.forEach(element => {
         let dropdownOptionRight = document.createElement('option')
         let dropdownOptionLeft = document.createElement('option')
+        let dropdownOptionCalc = document.createElement('option')
         
         dropdownOptionRight.value = element.id
         dropdownOptionRight.textContent = element.name
         dropdownOptionLeft.value = element.id
         dropdownOptionLeft.textContent = element.name
 
+        dropdownOptionCalc.value = element.id
+        dropdownOptionCalc.textContent = element.name
+
         leftDropdown.appendChild(dropdownOptionLeft)
         rightDropdown.appendChild(dropdownOptionRight)
+        dropdownCalc.appendChild(dropdownOptionCalc)
     })   
 
     // Event listener to change image in the dropdown
@@ -139,20 +145,48 @@ function renderList(data) {
     let event = new Event('change');
     leftDropdown.dispatchEvent(event);
     rightDropdown.dispatchEvent(event);
+    document.querySelector('.fomo-form').dispatchEvent(event);
 
     // Function that opens the modal and populates info inside
-    document.querySelector('.info-modal-btn').addEventListener('click', () => {
+    document.querySelector('#left-btn').addEventListener('click', (event) => {
         document.getElementById('id01').style.display='block';
         document.querySelector('.bg').style.filter='blur(10px)';
-    
-        const targetName = data.find(element => event.target.value)
-        document.querySelector('.modal-img').src = targetName.image
-        console.log(targetName.image)
+        getCoinDetails(event.target.dataset.id)
+        // const targetCoin = data.find(element => event.target.dataset.id === element.id)
+    })
+    document.querySelector('#right-btn').addEventListener('click', (event) => {
+        document.getElementById('id01').style.display='block';
+        document.querySelector('.bg').style.filter='blur(10px)';
+        getCoinDetails(event.target.dataset.id)
+        // const targetCoin = data.find(element => event.target.dataset.id === element.id)
     })
 }
 
+function renderModal(coinData){
+        console.log(coinData)
+        document.querySelector('.modal-img').src = coinData.image.small
+        console.log(coinData.image)
+        document.querySelector('.modal-header-name').textContent = coinData.name
+        document.querySelector('.modal-header-ticker').textContent = coinData.symbol.toUpperCase()
+        document.querySelector('.w3-container .compare-large-text').textContent = '$' + formatNumber(coinData.market_data.current_price.usd)
+        let changeDiv = document.querySelector('.trending-price-change')
+        let arrow = document.querySelector('.trending-arrow')
+        if(coinData.market_data.price_change_24h <= 0){
+            changeDiv.classList.add('red')
+            changeDiv.classList.remove('green')
+            arrow.innerHTML = `&#9660`
+        }else{
+            changeDiv.classList.add('green')
+            changeDiv.classList.remove('red')
+            arrow.innerHTML = `&#9650`
+        }
+        document.querySelector('.trending-percent').textContent = coinData.market_data.price_change_percentage_24h + '%'
+        document.querySelector('.modal-description').innerHTML = coinData.description.en
+    }       
+
 function renderCoinDetails(coin, side){
     document.querySelector(`#${side}-btn`).textContent = `Learn more about ${coin.name}`
+    document.querySelector(`#${side}-btn`).dataset.id = coin.id
     document.querySelector(`#${side}-price-div p`).textContent = `$${formatNumber(coin.current_price.toFixed(2))}`
     let arrow = document.querySelector(`#${side}-price-div span:first-child`)
     let changeDiv = document.querySelector(`#${side}-price-div .trending-price-change`)
@@ -206,23 +240,29 @@ document.querySelector('.w3-display-topright').addEventListener('click', () => {
     document.querySelector('.bg').style.filter='none';
 })
 
+function oldDateURL (id){
+    return `/coins/${id}/history?date=`
+}
+
 document.querySelector('.fomo-form').addEventListener('change', e => {
     let inputAmount = e.currentTarget.fomoDollars.value
     let priceOldBefore = e.currentTarget.startDate.value.split('-')
     let priceOldDate = `${priceOldBefore[2]}-${priceOldBefore[1]}-${priceOldBefore[0]}`
 
-
-    fetch(baseURL+oldDate+priceOldDate)
+    let id = e.currentTarget.chooseCoin.value
+    console.log(id)
+    fetch(baseURL+oldDateURL(id)+priceOldDate)
     .then(resp => resp.json())
     .then(json => {
         let priceOldAmount = json.market_data.current_price.usd
         console.log(json)
-        let priceToday = dataCache[0].current_price
+        let priceToday = dataCache.find((name) => name.id === id).current_price
+        console.log(priceToday)
         // This is the equation
         // (input_amount / price_at_chosen_date) * price_today
-        document.querySelector('.fomo-output').textContent = '$' + (inputAmount/priceOldAmount * priceToday)
-
+        document.querySelector('.fomo-output').textContent = '$' + formatNumber(((inputAmount/priceOldAmount * priceToday)).toFixed(2))
     })
+    
 })
 
 document.querySelector('.fomo-form').addEventListener('submit', e => {
