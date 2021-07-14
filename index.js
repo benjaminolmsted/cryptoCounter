@@ -22,6 +22,7 @@ function marketChartURL(id, days){
 const body = document.querySelector('body')
 const trendingList = document.querySelector('#trending-list-ul')
 
+
 let dataCache;
 
 /*entry point to app*/
@@ -29,14 +30,18 @@ getTrending()
 getList()
 youtubeData()
 //addEventHandlers()
-//getMarketChart('bitcoin', 1, 'left')
+
+
 /*fetches*/
+//Get trending is out entry point to rendering the 7 coins that are trending on coinGecko search
 function getTrending(){
     fetch(baseURL+trendingEndpoint)
     .then(resp => resp.json())
     .then(json => renderTrending(json))
 }
 
+
+//getList fetches the 25 top coins, as specified in the marketsQuery variable
 function getList(){
     fetch(baseURL + marketsEndpoint + marketsQuery)
     .then(resp => resp.json())
@@ -46,17 +51,23 @@ function getList(){
     })   
 }
 
+//Sometimes we want more detail about a coin. This gets it for us and renders the details in a modal view.
 function getCoinDetails(id){
     fetch(baseURL + coinsEndpoint + id)
     .then(resp => resp.json())
     .then(renderModal)
 }
 
-function getMarketChart(id, daysAgo, side){
+//When we want to get market data, we use this function.
+//id of the coin we want
+//daysAgo integer number of days
+//right or left
+//percentChange shows us if the market is up or down
+function getMarketChart(id, daysAgo, side, percentChange){
    fetch(marketChartURL(id, daysAgo))
    .then(resp => resp.json())
    .then(json => {
-       renderMarketChart(json, side)
+       renderMarketChart(json, daysAgo, side, percentChange)
    })
 }
 
@@ -72,7 +83,8 @@ function cacheJSON(json){
 
 /*  Render functions */
 
-function renderMarketChart(json, side){
+//renders our market chart data using https://www.chartjs.org/docs/latest/
+function renderMarketChart(json, daysAgo, side, percentChange){
     const priceData = json.prices
     //then we make an x and y array
     const x = []
@@ -80,19 +92,23 @@ function renderMarketChart(json, side){
     //then we go over the prices and make the arrays
     priceData.forEach(datum => {
         let date = new Date(datum[0])
-        let zero = date.getMinutes() < 10 ? '0' : ''
-        x.push(date.getHours() + ":" + zero + date.getMinutes())
+        if(daysAgo === 1){
+            let zero = date.getMinutes() < 10 ? '0' : ''
+            x.push(date.getHours() + ":" + zero + date.getMinutes())
+        }else{
+             x.push((date.getMonth() + 1) + '-' + date.getDate())
+        }
         y.push(datum[1])
     })
-    //then we check our work
-    
+    let chartColor = (percentChange < 0) ?  '#FA250A' : '#0AFB83'
+
     const labels = x
     const data = {
         labels: labels,
         datasets: [{
           label: 'Price',
-          backgroundColor: '#FA250A',
-          borderColor: '#FA250A',
+          backgroundColor: chartColor,
+          borderColor: chartColor,
 
           data: y,
         }]
@@ -104,23 +120,23 @@ function renderMarketChart(json, side){
         options: {}
     };
 
-    const chart = Chart.getChart(`${side}Chart`);
-    if(chart){
-        chart.destroy()
-    }
-      
-    let myChart = new Chart(
-    document.getElementById(`${side}Chart`),
-    config
-    );
-
+      const chart = Chart.getChart(`${side}Chart`);
+      if(chart){
+          chart.destroy()
+      }
+      let myChart = new Chart(
+        document.getElementById(`${side}Chart`),
+        config
+      );
 }
 
+//wrapper to interate over our trending coins
 function renderTrending(trendingJSON){
     console.log(trendingJSON)
     trendingJSON.coins.forEach(coin => renderTrendingCoin(coin.item))
 }
 
+//main function for rendering our trending coins on the side of the page
 function renderTrendingCoin(coin, numRank){
     let listLi = document.createElement('li')
     let numberSpan = document.createElement('span')
@@ -166,8 +182,6 @@ function renderTrendingCoin(coin, numRank){
     })
 
     listLi.addEventListener('click', e => {
-        // console.log(e.currentTarget)
-        // console.log(coin.id)
         document.getElementById('id01').style.display='block';
         document.querySelector('.bg').style.filter='blur(10px)';
         getCoinDetails(coin.id)
@@ -205,7 +219,7 @@ function renderList(data) {
         let coinFinder = data.find(element => coinID === element.id)
         dropdownImgLeft.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
         renderCoinDetails(coinFinder, 'left')
-        getMarketChart(coinFinder.id, 1, 'left')
+        getMarketChart(coinFinder.id, 1, 'left', coinFinder.price_change_percentage_24h)
         removeSelectedClass()
         document.querySelector('#price_change_24h').classList.add('selected-price-tab')
     })
@@ -215,7 +229,7 @@ function renderList(data) {
         let coinFinder = data.find(element => coinID === element.id)
         dropdownImgRight.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
         renderCoinDetails(coinFinder, 'right')
-        getMarketChart(coinFinder.id, 1, 'right')
+        getMarketChart(coinFinder.id, 1, 'right', coinFinder.price_change_percentage_24h)
         removeSelectedClass()
         document.querySelector('#price_change_24h').classList.add('selected-price-tab')
     })
@@ -245,30 +259,43 @@ function renderList(data) {
     document.querySelector('#price_change_24h').addEventListener('click', (e) => {
         removeSelectedClass()
         e.target.classList.add('selected-price-tab')
+        let coinFinder = data.find(element => leftDropdown.value === element.id)
+        timeScaleChanged('left', coinFinder.price_change_percentage_24h, leftDropdown.value, 1)
+        coinFinder = data.find(element => rightDropdown.value === element.id)
+        timeScaleChanged('right', coinFinder.price_change_percentage_24h, rightDropdown.value, 1)
     })
     document.querySelector('#price_change_7days').addEventListener('click', (e) => {
         removeSelectedClass()
         e.target.classList.add('selected-price-tab')
         let coinFinder = data.find(element => leftDropdown.value === element.id)
-        let arrow = document.querySelector(`#left-price-div span:first-child`)
-        let changeDiv = document.querySelector(`#left-price-div .trending-price-change`)
-        let color = percentChangeDivAndArrow(coinFinder.price_change_percentage_7d_in_currency, changeDiv, arrow)
-        document.querySelector(`#left-price-div span:last-child`).textContent = coinFinder.price_change_percentage_7d_in_currency.toFixed(2) + '%'
-     
+        timeScaleChanged('left', coinFinder.price_change_percentage_7d_in_currency, leftDropdown.value, 7)
         coinFinder = data.find(element => rightDropdown.value === element.id)
-        arrow = document.querySelector(`#right-price-div span:first-child`)
-        changeDiv = document.querySelector(`#right-price-div .trending-price-change`)
-        color = percentChangeDivAndArrow(coinFinder.price_change_percentage_7d_in_currency, changeDiv, arrow)
-        document.querySelector(`#right-price-div span:last-child`).textContent = coinFinder.price_change_percentage_7d_in_currency.toFixed(2) + '%'
+        timeScaleChanged('right', coinFinder.price_change_percentage_7d_in_currency, rightDropdown.value, 7)
     })
     document.querySelector('#price_change_30days').addEventListener('click', (e) => {
         removeSelectedClass()
         e.target.classList.add('selected-price-tab')
+        let coinFinder = data.find(element => leftDropdown.value === element.id)
+        timeScaleChanged('left', coinFinder.price_change_percentage_30d_in_currency, leftDropdown.value, 30)
+        coinFinder = data.find(element => rightDropdown.value === element.id)
+        timeScaleChanged('right', coinFinder.price_change_percentage_30d_in_currency, rightDropdown.value, 30)
     })
     document.querySelector('#price_change_1year').addEventListener('click', (e) => {
         removeSelectedClass()
         e.target.classList.add('selected-price-tab')
+        let coinFinder = data.find(element => leftDropdown.value === element.id)
+        timeScaleChanged('left', coinFinder.price_change_percentage_1y_in_currency, leftDropdown.value, 365)
+        coinFinder = data.find(element => rightDropdown.value === element.id)
+        timeScaleChanged('right', coinFinder.price_change_percentage_1y_in_currency, rightDropdown.value, 365)
     })
+}
+
+function timeScaleChanged(side, percentChange, id, daysAgo){
+    let arrow = document.querySelector(`#${side}-price-div span:first-child`)
+    let changeDiv = document.querySelector(`#${side}-price-div .trending-price-change`)
+    let color = percentChangeDivAndArrow(percentChange, changeDiv, arrow)
+    document.querySelector(`#${side}-price-div span:last-child`).textContent = percentChange.toFixed(2) + '%'
+    getMarketChart(id, daysAgo, side, percentChange)
 }
 
 function removeSelectedClass(){
@@ -283,7 +310,7 @@ function renderModal(coinData){
     document.querySelector('.modal-img').src = coinData.image.small
     document.querySelector('.modal-header-name').textContent = coinData.name
     document.querySelector('.modal-header-ticker').textContent = coinData.symbol.toUpperCase()
-    document.querySelector('.w3-container .compare-large-text').textContent = '$' + formatNumber(coinData.market_data.current_price.usd)
+    document.querySelector('.w3-container .compare-large-text').textContent = '$' + formatNumber(coinData.market_data.current_price.usd.toFixed(3))
     let changeDiv = document.querySelector('.trending-price-change')
     let arrow = document.querySelector('.trending-arrow')
     percentChangeDivAndArrow(coinData.market_data.price_change_24h, changeDiv, arrow)
@@ -358,7 +385,7 @@ document.querySelector('.fomo-form').addEventListener('change', e => {
             // This is the equation
             // (input_amount / price_at_chosen_date) * price_today
         
-            document.querySelector('.fomo-output').textContent = '$' + formatNumber(((inputAmount/priceOldAmount * priceToday)).toFixed(2))
+            document.querySelector('.fomo-output').textContent = '$' + formatNumber(((inputAmount/priceOldAmount * priceToday)).toFixed(2)) + ' today.'
         }else{
             document.querySelector('.fomo-output').textContent = 'before coin Gecko has data, or before the markets were open for ' + json.name
         }
@@ -405,12 +432,10 @@ function percentChangeDivAndArrow(priceChange, changedDiv, arrow){
         changedDiv.classList.add('red')
         changedDiv.classList.remove('green')
         arrow.innerHTML = `&#9660`
-        return 'red'
     }else{
         changedDiv.classList.add('green')
         changedDiv.classList.remove('red')
         arrow.innerHTML = `&#9650`
-        return 'green'
     }
 }
 
