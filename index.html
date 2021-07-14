@@ -5,23 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/jpg" href="favicon.png"/>
     <script defer src='index.js'></script>
     <title>CryptoCounter</title>
 </head>
-<body>
+<body onload="document.body.style.opacity='1'">
     <div id="id01" class="w3-modal">
         <div class="w3-modal-content">
         <div class="w3-container">
             <span class="w3-button w3-display-topright">&times;</span>
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png" alt="" class="modal-img">
             <h2 class="modal-header"><span class="modal-header-name">Bitcoin</span><span class="modal-header-ticker">BTC</span></h2>
+            
             <p class="compare-large-text">$32,962.88</p>
             <div class="trending-price-change">
                 <span class="trending-arrow">▲</span>
@@ -29,11 +30,6 @@
             </div>
             
             <p class="modal-description">The world’s first cryptocurrency, Bitcoin is stored and exchanged securely on the internet through a digital ledger known as a blockchain. Bitcoins are divisible into smaller units known as satoshis — each satoshi is worth 0.00000001 bitcoin.</p>
-            
-
-            <!-- <div class="modal-fomo">
-                <p>If you invested <span>_____</span> in BTC on <span>______</span>, you investment would be <span>_____</span>.</p>
-            </div> -->
         </div>
         </div>
     </div>
@@ -45,15 +41,7 @@
     </header>
 
     <div id="main-container">
-        <div id="left-side-container">
-            <div id="fomo-container">
-                <h2 class="title-header">What If...</h2>
-
-                <form class="fomo-form">
-                    <p>If you invested <span><input type="text" id="fomoDollars" name="fomoDollars" placeholder="Amount in USD" value="100" class="fomo-dollars"></span> in BTC on <span><input type="date" id="startDate" name="startDate" placeholder="Start date" value="2013-01-08" class="fomo-date"></span>, you investment would be <span class="fomo-output">$50000</span>.</p>
-                </form>
-            </div>
-    
+        <div id="left-side-container">    
             <div id="trending-container">
                 <h2 class="title-header">Trending in Crypto</h2>
                 <p class="title-description">The top searched coins in the last 24 hours.</p>
@@ -149,9 +137,18 @@
         </div>
     </div>
 
+    <div id="fomo-container">
+        <form class="fomo-form">
+            <h3 class="fomo-header">Have you ever wondered...</h3>
+            <p>If you invested <span><input type="text" id="fomoDollars" name="fomoDollars" placeholder="Amount in USD" value="100" class="fomo-dollars"></span> in <span><select id="chooseCoin" name="chooseCoin" placeholder="Choose your crypto" value="BTC" class="choose-coin"><option value="Bitcoin">Bitcoin</option></select></span> on <span><input type="date" id="startDate" name="startDate" placeholder="Start date" value="2019-01-08" class="fomo-date"></span>, your investment would be <span class="fomo-output">$50,000</span>.</p>
+        </form> 
+        <img src="" alt="">
+    </div>
+
     <footer>
         <p>© 2021 CryptoCounter.</p>
     </footer>
     </div>
 </body>
 </html>
+

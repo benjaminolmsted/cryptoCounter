@@ -138,6 +138,16 @@ function renderList(data) {
     let event = new Event('change');
     leftDropdown.dispatchEvent(event);
     rightDropdown.dispatchEvent(event);
+
+    // Function that opens the modal and populates info inside
+    document.querySelector('.info-modal-btn').addEventListener('click', () => {
+        document.getElementById('id01').style.display='block';
+        document.querySelector('.bg').style.filter='blur(10px)';
+    
+        const targetName = data.find(element => event.target.value)
+        document.querySelector('.modal-img').src = targetName.image
+        console.log(targetName.image)
+    })
 }
 
 function renderCoinDetails(coin, side){
@@ -188,11 +198,7 @@ function startTime() {
 }
 startTime();
 
-document.querySelector('.info-modal-btn').addEventListener('click', () => {
-    console.log('hey!!!!!')
-    document.getElementById('id01').style.display='block';
-    document.querySelector('.bg').style.filter='blur(10px)';
-})
+
 
 document.querySelector('.w3-display-topright').addEventListener('click', () => {
     document.getElementById('id01').style.display='none';
@@ -203,16 +209,18 @@ document.querySelector('.fomo-form').addEventListener('change', e => {
     let inputAmount = e.currentTarget.fomoDollars.value
     let priceOldBefore = e.currentTarget.startDate.value.split('-')
     let priceOldDate = `${priceOldBefore[2]}-${priceOldBefore[1]}-${priceOldBefore[0]}`
-  //  let priceToday = e.currentTarget.
+
 
     fetch(baseURL+oldDate+priceOldDate)
     .then(resp => resp.json())
     .then(json => {
-        let priceOldAmount = json.market_data.current_price.usd
+        // let priceOldAmount = json.market_data.current_price.usd
+        console.log(json)
         
         // This is the equation
         // (input_amount / price_at_chosen_date) * price_today
         document.querySelector('.fomo-output').textContent = '$' + (inputAmount/priceOldAmount * 1)
+
     })
 })
 
