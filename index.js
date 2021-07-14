@@ -50,11 +50,11 @@ function getCoinDetails(id){
     .then(renderModal)
 }
 
-function getMarketChart(id, daysAgo, side){
+function getMarketChart(id, daysAgo, side, percentChange){
    fetch(marketChartURL(id, daysAgo))
    .then(resp => resp.json())
    .then(json => {
-       renderMarketChart(json, side)
+       renderMarketChart(json, side, percentChange)
    })
 }
 
@@ -64,7 +64,7 @@ function cacheJSON(json){
 
 /*  Render functions */
 
-function renderMarketChart(json, side){
+function renderMarketChart(json, side, percentChange){
     const priceData = json.prices
     //then we make an x and y array
     const x = []
@@ -77,14 +77,15 @@ function renderMarketChart(json, side){
         y.push(datum[1])
     })
     //then we check our work
-    
+    let chartColor = (percentChange < 0) ?  '#FA250A' : '#0AFB83'
+
     const labels = x
     const data = {
         labels: labels,
         datasets: [{
           label: 'Price',
-          backgroundColor: '#FA250A',
-          borderColor: '#FA250A',
+          backgroundColor: chartColor,
+          borderColor: chartColor,
 
           data: y,
         }]
@@ -197,7 +198,7 @@ function renderList(data) {
         let coinFinder = data.find(element => coinID === element.id)
         dropdownImgLeft.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
         renderCoinDetails(coinFinder, 'left')
-        getMarketChart(coinFinder.id, 1, 'left')
+        getMarketChart(coinFinder.id, 1, 'left', coinFinder.price_change_percentage_24h)
         removeSelectedClass()
         document.querySelector('#price_change_24h').classList.add('selected-price-tab')
     })
@@ -207,7 +208,7 @@ function renderList(data) {
         let coinFinder = data.find(element => coinID === element.id)
         dropdownImgRight.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
         renderCoinDetails(coinFinder, 'right')
-        getMarketChart(coinFinder.id, 1, 'right')
+        getMarketChart(coinFinder.id, 1, 'right', coinFinder.price_change_percentage_24h)
         removeSelectedClass()
         document.querySelector('#price_change_24h').classList.add('selected-price-tab')
     })
@@ -237,30 +238,43 @@ function renderList(data) {
     document.querySelector('#price_change_24h').addEventListener('click', (e) => {
         removeSelectedClass()
         e.target.classList.add('selected-price-tab')
+        let coinFinder = data.find(element => leftDropdown.value === element.id)
+        timeScaleChanged('left', coinFinder.price_change_percentage_24h)
+        coinFinder = data.find(element => rightDropdown.value === element.id)
+        timeScaleChanged('right', coinFinder.price_change_percentage_24h)
     })
     document.querySelector('#price_change_7days').addEventListener('click', (e) => {
         removeSelectedClass()
         e.target.classList.add('selected-price-tab')
         let coinFinder = data.find(element => leftDropdown.value === element.id)
-        let arrow = document.querySelector(`#left-price-div span:first-child`)
-        let changeDiv = document.querySelector(`#left-price-div .trending-price-change`)
-        let color = percentChangeDivAndArrow(coinFinder.price_change_percentage_7d_in_currency, changeDiv, arrow)
-        document.querySelector(`#left-price-div span:last-child`).textContent = coinFinder.price_change_percentage_7d_in_currency.toFixed(2) + '%'
-     
+        timeScaleChanged('left', coinFinder.price_change_percentage_7d_in_currency)
         coinFinder = data.find(element => rightDropdown.value === element.id)
-        arrow = document.querySelector(`#right-price-div span:first-child`)
-        changeDiv = document.querySelector(`#right-price-div .trending-price-change`)
-        color = percentChangeDivAndArrow(coinFinder.price_change_percentage_7d_in_currency, changeDiv, arrow)
-        document.querySelector(`#right-price-div span:last-child`).textContent = coinFinder.price_change_percentage_7d_in_currency.toFixed(2) + '%'
+        timeScaleChanged('right', coinFinder.price_change_percentage_7d_in_currency)
     })
     document.querySelector('#price_change_30days').addEventListener('click', (e) => {
         removeSelectedClass()
         e.target.classList.add('selected-price-tab')
+        let coinFinder = data.find(element => leftDropdown.value === element.id)
+        timeScaleChanged('left', coinFinder.price_change_percentage_30d_in_currency)
+        coinFinder = data.find(element => rightDropdown.value === element.id)
+        timeScaleChanged('right', coinFinder.price_change_percentage_30d_in_currency)
     })
     document.querySelector('#price_change_1year').addEventListener('click', (e) => {
         removeSelectedClass()
         e.target.classList.add('selected-price-tab')
+        let coinFinder = data.find(element => leftDropdown.value === element.id)
+        timeScaleChanged('left', coinFinder.price_change_percentage_1y_in_currency)
+        coinFinder = data.find(element => rightDropdown.value === element.id)
+        timeScaleChanged('right', coinFinder.price_change_percentage_1y_in_currency)
     })
+}
+
+function timeScaleChanged(side, percentChange){
+    let arrow = document.querySelector(`#${side}-price-div span:first-child`)
+    let changeDiv = document.querySelector(`#${side}-price-div .trending-price-change`)
+    let color = percentChangeDivAndArrow(percentChange, changeDiv, arrow)
+    document.querySelector(`#${side}-price-div span:last-child`).textContent = percentChange.toFixed(2) + '%'
+    //change graph
 }
 
 function removeSelectedClass(){
