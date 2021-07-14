@@ -98,6 +98,14 @@ function renderTrendingCoin(coin, numRank){
             arrowSpan.innerHTML = `&#9650`
         }
     })
+
+    listLi.addEventListener('click', e => {
+        // console.log(e.currentTarget)
+        // console.log(coin.id)
+        document.getElementById('id01').style.display='block';
+        document.querySelector('.bg').style.filter='blur(10px)';
+        getCoinDetails(coin.id)
+    })
 }
 
 function renderList(data) {
@@ -180,7 +188,7 @@ function renderModal(coinData){
             changeDiv.classList.remove('red')
             arrow.innerHTML = `&#9650`
         }
-        document.querySelector('.trending-percent').textContent = coinData.market_data.price_change_percentage_24h + '%'
+        document.querySelector('.trending-percent').textContent = coinData.market_data.price_change_percentage_24h.toFixed(2) + '%'
         document.querySelector('.modal-description').innerHTML = coinData.description.en
     }       
 
