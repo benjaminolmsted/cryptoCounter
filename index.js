@@ -7,8 +7,15 @@ const coinsEndpoint = '/coins/'
 const listEndpoint = '/coins/list'
 const marketsEndpoint = '/coins/markets'
 const oldDate = '/coins/bitcoin/history?date='
-
 const marketsQuery = '?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false&price_change_percentage=24h'
+
+function oldDateURL (id){
+    return `/coins/${id}/history?date=`
+}
+
+function marketChartURL(id, days){
+    return `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=${days}`
+}
 
 /* document selectors */
 const body = document.querySelector('body')
@@ -19,7 +26,7 @@ let dataCache;
 /*entry point to app*/
 getTrending()
 GetList()
-
+//getMarketChart('bitcoin', 1, 'left')
 /*fetches*/
 function getTrending(){
     fetch(baseURL+trendingEndpoint)
@@ -42,11 +49,65 @@ function getCoinDetails(id){
     .then(renderModal)
 }
 
+function getMarketChart(id, daysAgo, side){
+   fetch(marketChartURL(id, daysAgo))
+   .then(resp => resp.json())
+   .then(json => {
+       console.log(Date(json.prices[0][0]))
+       renderMarketChart(json, side)
+   })
+}
+
 function cacheJSON(json){
     dataCache = json
 }
 
 /*  Render functions */
+
+function renderMarketChart(json, side){
+    const priceData = json.prices
+    //then we make an x and y array
+    const x = []
+    const y = []
+    //then we go over the prices and make the arrays
+    priceData.forEach(datum => {
+        let date = new Date(datum[0])
+        let zero = date.getMinutes() < 10 ? '0' : ''
+        x.push(date.getHours() + ":" + zero + date.getMinutes())
+        y.push(datum[1])
+    })
+    //then we check our work
+    console.log(new Date(priceData[0][0]).getHours())
+    
+    const labels = x
+    const data = {
+        labels: labels,
+        datasets: [{
+          label: 'Price',
+          backgroundColor: '#FA250A',
+          borderColor: '#FA250A',
+
+          data: y,
+        }]
+      };
+
+    const config = {
+        type: 'line',
+        data,
+        options: {}
+      };
+
+      const chart = Chart.getChart(`${side}Chart`);
+      if(chart){
+          chart.destroy()
+      }
+      
+      let myChart = new Chart(
+        document.getElementById(`${side}Chart`),
+        config
+      );
+
+}
 
 function renderTrending(trendingJSON){
     console.log(trendingJSON)
@@ -137,6 +198,7 @@ function renderList(data) {
         let coinFinder = data.find(element => coinID === element.id)
         dropdownImgLeft.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
         renderCoinDetails(coinFinder, 'left')
+        getMarketChart(coinFinder.id, 1, 'left')
     })
 
     rightDropdown.addEventListener('change', event => {            
@@ -144,6 +206,7 @@ function renderList(data) {
         let coinFinder = data.find(element => coinID === element.id)
         dropdownImgRight.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
         renderCoinDetails(coinFinder, 'right')
+        getMarketChart(coinFinder.id, 1, 'right')
     })
 
     rightDropdown.selectedIndex = 1;
@@ -246,9 +309,7 @@ document.querySelector('.w3-display-topright').addEventListener('click', () => {
     document.querySelector('.bg').style.filter='none';
 })
 
-function oldDateURL (id){
-    return `/coins/${id}/history?date=`
-}
+
 
 document.querySelector('.fomo-form').addEventListener('change', e => {
     let inputAmount = e.currentTarget.fomoDollars.value
@@ -260,10 +321,19 @@ document.querySelector('.fomo-form').addEventListener('change', e => {
     fetch(baseURL+oldDateURL(id)+priceOldDate)
     .then(resp => resp.json())
     .then(json => {
-        let priceOldAmount = json.market_data.current_price.usd
-        let priceToday = dataCache.find((name) => name.id === id).current_price
-        console.log(priceToday)
-        document.querySelector('.fomo-output').textContent = '$' + formatNumber(((inputAmount/priceOldAmount * priceToday)).toFixed(2))
+        if(json.market_data){
+            let priceOldAmount = json.market_data.current_price.usd
+            console.log(json)
+            let priceToday = dataCache.find((name) => name.id === id).current_price
+            console.log(priceToday)
+            // This is the equation
+            // (input_amount / price_at_chosen_date) * price_today
+        
+            document.querySelector('.fomo-output').textContent = '$' + formatNumber(((inputAmount/priceOldAmount * priceToday)).toFixed(2))
+        }else{
+            document.querySelector('.fomo-output').textContent = 'before coin Gecko has data, or before the markets were open for ' + json.name
+        }
+
     })
 })
 
