@@ -11,6 +11,8 @@ body {
     background-color: #222;
     color: white;
     margin: 40px;
+    opacity: 0;
+    transition: opacity 1s;
 }
 
 .label {
@@ -59,6 +61,7 @@ h1 {
 }
 
 /* Main Container Style */
+
 #main-container {
     display: flex;
     margin-top: 40px;
@@ -74,28 +77,66 @@ h1 {
 
 }
 
-#trending-container, #fomo-container {
+#trending-container {
     border-radius: 10px;
     background-color: #333;
     padding: 32px;
     margin-bottom: 24px;
 }
 
-.fomo-form {
-    font-family: 'Monument Grotesk';
-    font-size: 18px;
-    color: #0272FA;
-    text-align: center;
+.w3-modal-content {
+    margin: 0;
 }
 
-.fomo-form input {
-    background-color: transparent;
-    color: #ccc;
+/* Fomo Container Style */
+
+#fomo-container {
+    background: linear-gradient(90deg, rgba(1,56,122,1) 20%, rgba(6,105,145,1) 63%, rgba(5,132,135,1) 100%);
+    padding: 48px 24px 120px 40px;
+    margin-left: -40px;
+    width: calc(100% + 80px);
+    margin-top: 80px;
+}
+
+.fomo-form {
+    font-family: 'Open Sans';
+    font-size: 24px;
+    color: white;
+    margin-top: 24px;
+    width: 60%;
+    line-height: 250%;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.fomo-header {
+    font-family: 'Monument Grotesk';
+    letter-spacing: 0px;
+    color: #83b7f5;
+    font-size: 20px;
+    margin-top: 40px;
+    margin-bottom: 32px;
+}
+
+.fomo-form input, .fomo-form select {
+    background-color: #efefef;
+    color: #000;
     border: none;
-    border-bottom: 1px solid #ccc;
     height: 40px;
-    width: 120px;
-    text-align: center;;
+    width: 180px;
+    text-align: center;
+    border-radius: 5px;
+    margin: 0 8px;
+    padding: 0 12px;
+    font-size: 20px;
+}
+
+
+.fomo-output {
+    color: #D4FA1B;
 }
 
 .trending-list-li {
@@ -110,6 +151,7 @@ h1 {
 
 .trending-name {
     float: left;
+    width: 50%;
 }
 
 .trending-num {
@@ -119,6 +161,7 @@ h1 {
     margin-right: 24px;
     float: left;
     margin-top: 4px;
+    width: 5%
 }
 
 .trending-img {
@@ -127,8 +170,7 @@ h1 {
     object-fit: cover;
     border-radius: 50px;
     float: left;
-    margin-right: 8px;
-
+    margin-right: 16px;
 }
 
 .trending-coin {
@@ -137,19 +179,25 @@ h1 {
     font-weight: 600;
     padding-bottom: 24px;
     margin-top: 4px;
-    text-align: center;
+    text-align: left;
     float: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: calc(100% - 56px);
 }
 
 .trending-price-change {
     font-family: 'Monument Grotesk Semi-Mono';
     font-size: 18px;
-    padding-top: 4px;
-    padding-bottom: 16px;
+    padding-bottom: 32px;
+    width: 30%;
 }
 
 #trending-container .trending-price-change {
     float: right;
+    text-align: right;
+    padding-top: 4px;
 }
 
 /* Compare Section Style */
@@ -248,12 +296,15 @@ h1 {
     transition: .5s;
 }
 
+#id01 {
+}
+
 .w3-modal {
     background-color: #333;
     border-radius: 10px;
     width: 50vw;
-    height: 75vh;
-    position: absolute;
+    height: auto;
+    position:fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -262,6 +313,7 @@ h1 {
 
 .w3-container, .w3-panel {
     background: #333;
+    padding: 0;
     width: calc(50vw - 80px);
 }
 
@@ -287,7 +339,7 @@ h1 {
     font-family: 'Monument Grotesk';
     font-size: 24px;
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 32px;
 }
 
 .modal-header-price {
@@ -332,8 +384,6 @@ h1 {
 /* Footer Style */
 
 footer {
-    margin-top: 80px;
-    border-top: 1px solid #333;
     padding-top: 40px;
     font-family: 'Open Sans';
     font-size: 14px;
@@ -342,6 +392,10 @@ footer {
 /* Media Queries */
 
 @media only screen and (max-width: 1080px) {
+    body {
+        margin: 24px;
+    }
+    
     #main-container {
         display: block;
         margin-top: 24px;
@@ -355,6 +409,10 @@ footer {
         margin-bottom: 40px;
     }
 
+    .fomo-form {
+        width: 100%
+    }
+
     #compare-container {
         display: block;
         float: none;
@@ -362,4 +420,32 @@ footer {
         margin-right: 0px;
         margin-bottom: 40px;
     }
+
+    .compare-large-text {
+        font-size: 28px;
+    }
+
+    .w3-modal {
+        width: 75vw;
+    }
+
+    .w3-container, .w3-panel {
+        width: calc(75vw - 80px);
+    }
+
+    .w3-container .compare-large-text {
+        font-size: 20px;
+        padding-bottom: 16px;
+    }
+
+    .modal-img {
+        width: 64px;
+        height: 64px;
+    }
+
+    .trending-num {
+        width: auto;
+    }
+
+
   }
