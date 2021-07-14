@@ -133,6 +133,8 @@ function renderList(data) {
         renderCoinDetails(coinFinder, 'right')
     })
 
+    rightDropdown.selectedIndex = 1;
+
     let event = new Event('change');
     leftDropdown.dispatchEvent(event);
     rightDropdown.dispatchEvent(event);
@@ -201,7 +203,7 @@ document.querySelector('.fomo-form').addEventListener('change', e => {
     let inputAmount = e.currentTarget.fomoDollars.value
     let priceOldBefore = e.currentTarget.startDate.value.split('-')
     let priceOldDate = `${priceOldBefore[2]}-${priceOldBefore[1]}-${priceOldBefore[0]}`
-    let priceToday = e.currentTarget.
+  //  let priceToday = e.currentTarget.
 
     fetch(baseURL+oldDate+priceOldDate)
     .then(resp => resp.json())
@@ -210,7 +212,7 @@ document.querySelector('.fomo-form').addEventListener('change', e => {
         
         // This is the equation
         // (input_amount / price_at_chosen_date) * price_today
-        document.querySelector('.fomo-output').textContent = '$' + (inputAmount/priceOldAmount * )
+        document.querySelector('.fomo-output').textContent = '$' + (inputAmount/priceOldAmount * 1)
     })
 })
 
