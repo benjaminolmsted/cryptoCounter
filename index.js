@@ -254,13 +254,18 @@ document.querySelector('.fomo-form').addEventListener('change', e => {
     fetch(baseURL+oldDateURL(id)+priceOldDate)
     .then(resp => resp.json())
     .then(json => {
-        let priceOldAmount = json.market_data.current_price.usd
-        console.log(json)
-        let priceToday = dataCache.find((name) => name.id === id).current_price
-        console.log(priceToday)
-        // This is the equation
-        // (input_amount / price_at_chosen_date) * price_today
-        document.querySelector('.fomo-output').textContent = '$' + formatNumber(((inputAmount/priceOldAmount * priceToday)).toFixed(2))
+        if(json.market_data){
+            let priceOldAmount = json.market_data.current_price.usd
+            console.log(json)
+            let priceToday = dataCache.find((name) => name.id === id).current_price
+            console.log(priceToday)
+            // This is the equation
+            // (input_amount / price_at_chosen_date) * price_today
+        
+            document.querySelector('.fomo-output').textContent = '$' + formatNumber(((inputAmount/priceOldAmount * priceToday)).toFixed(2))
+        }else{
+            document.querySelector('.fomo-output').textContent = 'before coin Gecko has data, or before the markets were open for ' + json.name
+        }
     })
     
 })
