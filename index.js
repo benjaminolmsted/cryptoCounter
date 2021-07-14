@@ -7,7 +7,7 @@ const coinsEndpoint = '/coins/'
 const listEndpoint = '/coins/list'
 const marketsEndpoint = '/coins/markets'
 const oldDate = '/coins/bitcoin/history?date='
-const marketsQuery = '?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false&price_change_percentage=24h'
+const marketsQuery = '?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false&price_change_percentage=24h,7d,30d,1y' //is it possible to add more data to this request?
 
 function oldDateURL (id){
     return `/coins/${id}/history?date=`
@@ -25,7 +25,8 @@ let dataCache;
 
 /*entry point to app*/
 getTrending()
-GetList()
+getList()
+//addEventHandlers()
 //getMarketChart('bitcoin', 1, 'left')
 /*fetches*/
 function getTrending(){
@@ -34,7 +35,7 @@ function getTrending(){
     .then(json => renderTrending(json))
 }
 
-function GetList(){
+function getList(){
     fetch(baseURL + marketsEndpoint + marketsQuery)
     .then(resp => resp.json())
     .then(json => {
@@ -53,7 +54,6 @@ function getMarketChart(id, daysAgo, side){
    fetch(marketChartURL(id, daysAgo))
    .then(resp => resp.json())
    .then(json => {
-       console.log(Date(json.prices[0][0]))
        renderMarketChart(json, side)
    })
 }
@@ -77,7 +77,6 @@ function renderMarketChart(json, side){
         y.push(datum[1])
     })
     //then we check our work
-    console.log(new Date(priceData[0][0]).getHours())
     
     const labels = x
     const data = {
@@ -199,6 +198,8 @@ function renderList(data) {
         dropdownImgLeft.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
         renderCoinDetails(coinFinder, 'left')
         getMarketChart(coinFinder.id, 1, 'left')
+        removeSelectedClass()
+        document.querySelector('#price_change_24h').classList.add('selected-price-tab')
     })
 
     rightDropdown.addEventListener('change', event => {            
@@ -207,6 +208,8 @@ function renderList(data) {
         dropdownImgRight.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
         renderCoinDetails(coinFinder, 'right')
         getMarketChart(coinFinder.id, 1, 'right')
+        removeSelectedClass()
+        document.querySelector('#price_change_24h').classList.add('selected-price-tab')
     })
 
     rightDropdown.selectedIndex = 1;
@@ -229,26 +232,54 @@ function renderList(data) {
         getCoinDetails(event.target.dataset.id)
         // const targetCoin = data.find(element => event.target.dataset.id === element.id)
     })
+
+    //add historic event listeners 
+    document.querySelector('#price_change_24h').addEventListener('click', (e) => {
+        removeSelectedClass()
+        e.target.classList.add('selected-price-tab')
+    })
+    document.querySelector('#price_change_7days').addEventListener('click', (e) => {
+        removeSelectedClass()
+        e.target.classList.add('selected-price-tab')
+        let coinFinder = data.find(element => leftDropdown.value === element.id)
+        let arrow = document.querySelector(`#left-price-div span:first-child`)
+        let changeDiv = document.querySelector(`#left-price-div .trending-price-change`)
+        let color = percentChangeDivAndArrow(coinFinder.price_change_percentage_7d_in_currency, changeDiv, arrow)
+        document.querySelector(`#left-price-div span:last-child`).textContent = coinFinder.price_change_percentage_7d_in_currency.toFixed(2) + '%'
+     
+        coinFinder = data.find(element => rightDropdown.value === element.id)
+        arrow = document.querySelector(`#right-price-div span:first-child`)
+        changeDiv = document.querySelector(`#right-price-div .trending-price-change`)
+        color = percentChangeDivAndArrow(coinFinder.price_change_percentage_7d_in_currency, changeDiv, arrow)
+        document.querySelector(`#right-price-div span:last-child`).textContent = coinFinder.price_change_percentage_7d_in_currency.toFixed(2) + '%'
+    })
+    document.querySelector('#price_change_30days').addEventListener('click', (e) => {
+        removeSelectedClass()
+        e.target.classList.add('selected-price-tab')
+    })
+    document.querySelector('#price_change_1year').addEventListener('click', (e) => {
+        removeSelectedClass()
+        e.target.classList.add('selected-price-tab')
+    })
+}
+
+function removeSelectedClass(){
+    document.querySelector('#price_change_24h').classList.remove('selected-price-tab')
+    document.querySelector('#price_change_7days').classList.remove('selected-price-tab')
+    document.querySelector('#price_change_30days').classList.remove('selected-price-tab')
+    document.querySelector('#price_change_1year').classList.remove('selected-price-tab')
 }
 
 function renderModal(coinData){
     console.log(coinData)
     document.querySelector('.modal-img').src = coinData.image.small
-    console.log(coinData.image)
     document.querySelector('.modal-header-name').textContent = coinData.name
     document.querySelector('.modal-header-ticker').textContent = coinData.symbol.toUpperCase()
     document.querySelector('.w3-container .compare-large-text').textContent = '$' + formatNumber(coinData.market_data.current_price.usd)
     let changeDiv = document.querySelector('.trending-price-change')
     let arrow = document.querySelector('.trending-arrow')
-    if(coinData.market_data.price_change_24h <= 0){
-        changeDiv.classList.add('red')
-        changeDiv.classList.remove('green')
-        arrow.innerHTML = `&#9660`
-    }else{
-        changeDiv.classList.add('green')
-        changeDiv.classList.remove('red')
-        arrow.innerHTML = `&#9650`
-    }
+    percentChangeDivAndArrow(coinData.market_data.price_change_24h, changeDiv, arrow)
+
     document.querySelector('.trending-percent').textContent = coinData.market_data.price_change_percentage_24h.toFixed(2) + '%'
     document.querySelector('.modal-description').innerHTML = coinData.description.en
 }       
@@ -260,15 +291,7 @@ function renderCoinDetails(coin, side){
     document.querySelector(`#${side}-price-div p`).textContent = `$${formatNumber(coin.current_price.toFixed(2))}`
     let arrow = document.querySelector(`#${side}-price-div span:first-child`)
     let changeDiv = document.querySelector(`#${side}-price-div .trending-price-change`)
-    if(coin.price_change_percentage_24h <= 0){
-        changeDiv.classList.add('red')
-        changeDiv.classList.remove('green')
-        arrow.innerHTML = `&#9660`
-    }else{
-        changeDiv.classList.add('green')
-        changeDiv.classList.remove('red')
-        arrow.innerHTML = `&#9650`
-    }
+    percentChangeDivAndArrow(coin.price_change_percentage_24h, changeDiv, arrow)
     document.querySelector(`#${side}-price-div span:last-child`).textContent = coin.price_change_percentage_24h.toFixed(2) + '%'
     document.querySelector(`#${side}-market-cap`).textContent = '$' + abbreviate_number(coin.market_cap)
     document.querySelector(`#${side}-volume`).textContent = '$' + abbreviate_number(coin.total_volume)
@@ -309,23 +332,21 @@ document.querySelector('.w3-display-topright').addEventListener('click', () => {
     document.querySelector('.bg').style.filter='none';
 })
 
-
-
 document.querySelector('.fomo-form').addEventListener('change', e => {
     let inputAmount = e.currentTarget.fomoDollars.value
     let priceOldBefore = e.currentTarget.startDate.value.split('-')
     let priceOldDate = `${priceOldBefore[2]}-${priceOldBefore[1]}-${priceOldBefore[0]}`
 
     let id = e.currentTarget.chooseCoin.value
-    console.log(id)
+    
     fetch(baseURL+oldDateURL(id)+priceOldDate)
     .then(resp => resp.json())
     .then(json => {
         if(json.market_data){
             let priceOldAmount = json.market_data.current_price.usd
-            console.log(json)
+            
             let priceToday = dataCache.find((name) => name.id === id).current_price
-            console.log(priceToday)
+            
             // This is the equation
             // (input_amount / price_at_chosen_date) * price_today
         
@@ -340,6 +361,22 @@ document.querySelector('.fomo-form').addEventListener('change', e => {
 document.querySelector('.fomo-form').addEventListener('submit', e => {
     e.preventDefault()
 })
+
+
+//helper functions
+function percentChangeDivAndArrow(priceChange, changedDiv, arrow){
+    if(priceChange <= 0){
+        changedDiv.classList.add('red')
+        changedDiv.classList.remove('green')
+        arrow.innerHTML = `&#9660`
+        return 'red'
+    }else{
+        changedDiv.classList.add('green')
+        changedDiv.classList.remove('red')
+        arrow.innerHTML = `&#9650`
+        return 'green'
+    }
+}
 
 // https://blog.abelotech.com/posts/number-currency-formatting-javascript/
 function formatNumber(num) {
