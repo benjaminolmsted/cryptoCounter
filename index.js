@@ -26,7 +26,7 @@ let dataCache;
 /*entry point to app*/
 getTrending()
 GetList()
-getMarketChart('bitcoin', 1, 'left')
+//getMarketChart('bitcoin', 1, 'left')
 /*fetches*/
 
 function getTrending(){
@@ -73,19 +73,22 @@ function renderMarketChart(json, side){
     const y = []
     //then we go over the prices and make the arrays
     priceData.forEach(datum => {
-        x.push((datum[0]))
+        let date = new Date(datum[0])
+        let zero = date.getMinutes() < 10 ? '0' : ''
+        x.push(date.getHours() + ":" + zero + date.getMinutes())
         y.push(datum[1])
     })
     //then we check our work
-    console.log(x, y)
+    console.log(new Date(priceData[0][0]).getHours())
     
     const labels = x
     const data = {
         labels: labels,
         datasets: [{
           label: 'Price',
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: '#FA250A',
+          borderColor: '#FA250A',
+
           data: y,
         }]
       };
