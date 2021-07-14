@@ -93,12 +93,6 @@ function renderTrendingCoin(coin, numRank){
     })
 }
 
-function getCoinDetails(id){
-    fetch(baseURL + coinsEndpoint + id)
-    .then(resp => resp.json())
-    .then((console.log))
-}
-
 function renderList(data) {
     let leftDropdown = document.querySelector('#dropdown-left')
     let rightDropdown = document.querySelector('#dropdown-right')
@@ -166,12 +160,12 @@ function renderCoinDetails(coin, side){
     }
     document.querySelector(`#${side}-price-div span:last-child`).textContent = coin.price_change_percentage_24h.toFixed(2) + '%'
 
-    document.querySelector(`#${side}-market-cap`).textContent = '$' + formatNumber(coin.market_cap)
-    document.querySelector(`#${side}-volume`).textContent = '$' + formatNumber(coin.total_volume)
-    document.querySelector(`#${side}-circulating-supply`).textContent = formatNumber(coin.circulating_supply.toFixed(2))
-    document.querySelector(`#${side}-24-high`).textContent = '$' + formatNumber(coin.high_24h)
-    document.querySelector(`#${side}-24-low`).textContent = '$' + formatNumber(coin.low_24h)
-    document.querySelector(`#${side}-ath`).textContent = '$' + formatNumber(coin.ath)
+    document.querySelector(`#${side}-market-cap`).textContent = '$' + abbreviate_number(coin.market_cap)
+    document.querySelector(`#${side}-volume`).textContent = '$' + abbreviate_number(coin.total_volume)
+    document.querySelector(`#${side}-circulating-supply`).textContent = abbreviate_number(coin.circulating_supply)
+    document.querySelector(`#${side}-24-high`).textContent = '$' + formatNumber(coin.high_24h.toFixed(2))
+    document.querySelector(`#${side}-24-low`).textContent = '$' + formatNumber(coin.low_24h.toFixed(2))
+    document.querySelector(`#${side}-ath`).textContent = '$' + formatNumber(coin.ath.toFixed(2))
     document.querySelector(`#${side}-atl`).textContent = '$' + formatNumber(coin.atl.toFixed(2))
 }
 
@@ -241,4 +235,34 @@ function formatNumber(num) {
 
   function currencyFormat(num) {
     return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  }
+
+ // https://stackoverflow.com/questions/10599933/convert-long-number-into-abbreviated-string-in-javascript-with-a-special-shortn
+  function abbreviateNumber(value) {
+    var newValue = value;
+    if (value >= 1000) {
+        var suffixes = ["", "k", "m", "b","t"];
+        var suffixNum = Math.floor( (""+value).length/3 );
+        var shortValue = '';
+        for (var precision = 2; precision >= 1; precision--) {
+            shortValue = parseFloat( (suffixNum != 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
+            var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
+            if (dotLessShortValue.length <= 2) { break; }
+        }
+        if (shortValue % 1 != 0)  shortValue = shortValue.toFixed(1);
+        newValue = shortValue+suffixes[suffixNum];
+    }
+    return newValue;
+}
+
+abbreviate_number = function(num, fixed) {
+    if (num === null) { return null; } // terminate early
+    if (num === 0) { return '0'; } // terminate early
+    fixed = (!fixed || fixed < 0) ? 0 : fixed; // number of decimal places to show
+    var b = (num).toPrecision(2).split("e"), // get power
+        k = b.length === 1 ? 0 : Math.floor(Math.min(b[1].slice(1), 14) / 3), // floor at decimals, ceiling at trillions
+        c = k < 1 ? num.toFixed(0 + fixed) : (num / Math.pow(10, k * 3) ).toFixed(1 + fixed), // divide by power
+        d = c < 0 ? c : Math.abs(c), // enforce -0 is 0
+        e = d + ['', 'K', 'M', 'B', 'T'][k]; // append power
+    return e;
   }
