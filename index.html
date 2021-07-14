@@ -13,6 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/jpg" href="favicon.png"/>
     <script defer src='index.js'></script>
+    <script defer src="https://cdn.plot.ly/plotly-2.2.0.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>CryptoCounter</title>
 </head>
 <body onload="document.body.style.opacity='1'">
@@ -81,6 +83,9 @@
                             <span class="trending-arrow">&#9650;</span>
                             <span class="trending-percent">5,390%</span>
                         </div>
+                        <div class="price-graph" id="left-graph">
+                            <canvas id="leftChart"></canvas>
+                        </div>
                     </div>
                     
                     <div class="info-split" id="right-price-div">
@@ -88,6 +93,9 @@
                         <div class="trending-price-change">
                             <span class="trending-arrow">&#9650;</span>
                             <span class="trending-percent">5,390%</span>
+                        </div>
+                        <div class="price-graph" id="right-graph">
+                            <canvas id="rightChart"></canvas>
                         </div>
                     </div>
                 </div>
