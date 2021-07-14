@@ -133,6 +133,8 @@ function renderList(data) {
         renderCoinDetails(coinFinder, 'right')
     })
 
+    rightDropdown.selectedIndex = 1;
+
     let event = new Event('change');
     leftDropdown.dispatchEvent(event);
     rightDropdown.dispatchEvent(event);
@@ -150,7 +152,7 @@ function renderList(data) {
 
 function renderCoinDetails(coin, side){
     document.querySelector(`#${side}-btn`).textContent = `Learn more about ${coin.name}`
-    document.querySelector(`#${side}-price-div p`).textContent = `$${coin.current_price.toFixed(2)}`
+    document.querySelector(`#${side}-price-div p`).textContent = `$${formatNumber(coin.current_price.toFixed(2))}`
     let arrow = document.querySelector(`#${side}-price-div span:first-child`)
     let changeDiv = document.querySelector(`#${side}-price-div .trending-price-change`)
     if(coin.price_change_percentage_24h <= 0){
@@ -164,13 +166,13 @@ function renderCoinDetails(coin, side){
     }
     document.querySelector(`#${side}-price-div span:last-child`).textContent = coin.price_change_percentage_24h.toFixed(2) + '%'
 
-    document.querySelector(`#${side}-market-cap`).textContent = '$' + coin.market_cap
-    document.querySelector(`#${side}-volume`).textContent = '$' + coin.total_volume
-    document.querySelector(`#${side}-circulating-supply`).textContent = coin.circulating_supply
-    document.querySelector(`#${side}-24-high`).textContent = '$' + coin.high_24h
-    document.querySelector(`#${side}-24-low`).textContent = '$' + coin.low_24h
-    document.querySelector(`#${side}-ath`).textContent = '$' + coin.ath
-    document.querySelector(`#${side}-atl`).textContent = '$' + coin.atl
+    document.querySelector(`#${side}-market-cap`).textContent = '$' + formatNumber(coin.market_cap)
+    document.querySelector(`#${side}-volume`).textContent = '$' + formatNumber(coin.total_volume)
+    document.querySelector(`#${side}-circulating-supply`).textContent = formatNumber(coin.circulating_supply.toFixed(2))
+    document.querySelector(`#${side}-24-high`).textContent = '$' + formatNumber(coin.high_24h)
+    document.querySelector(`#${side}-24-low`).textContent = '$' + formatNumber(coin.low_24h)
+    document.querySelector(`#${side}-ath`).textContent = '$' + formatNumber(coin.ath)
+    document.querySelector(`#${side}-atl`).textContent = '$' + formatNumber(coin.atl.toFixed(2))
 }
 
 // Animation for timer
@@ -207,7 +209,7 @@ document.querySelector('.fomo-form').addEventListener('change', e => {
     let inputAmount = e.currentTarget.fomoDollars.value
     let priceOldBefore = e.currentTarget.startDate.value.split('-')
     let priceOldDate = `${priceOldBefore[2]}-${priceOldBefore[1]}-${priceOldBefore[0]}`
-    // let priceToday = e.currentTarget.
+
 
     fetch(baseURL+oldDate+priceOldDate)
     .then(resp => resp.json())
@@ -217,7 +219,8 @@ document.querySelector('.fomo-form').addEventListener('change', e => {
         
         // This is the equation
         // (input_amount / price_at_chosen_date) * price_today
-        // document.querySelector('.fomo-output').textContent = '$' + (inputAmount/priceOldAmount * );
+        document.querySelector('.fomo-output').textContent = '$' + (inputAmount/priceOldAmount * 1)
+
     })
 })
 
@@ -230,3 +233,11 @@ document.querySelector('.fomo-form').addEventListener('submit', e => {
 function renderFullCoin(coin){
     console.log(coin)
 }
+
+function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  }
+
+  function currencyFormat(num) {
+    return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  }
