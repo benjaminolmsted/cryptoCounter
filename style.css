@@ -84,6 +84,10 @@ h1 {
     margin-bottom: 24px;
 }
 
+.trending-arrow {
+    padding-right: 8px;
+}
+
 .w3-modal-content {
     margin: 0;
 }
@@ -143,6 +147,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     padding: 24px 0;
     border-bottom: 1px solid #888;
     overflow: auto;
+    cursor: pointer;
 }
 
 .trending-list-li:last-child {
@@ -447,5 +452,8 @@ footer {
         width: auto;
     }
 
-
+    .trending-price-change {
+        padding-bottom: 24px;
+        width: auto;
+    }
   }
