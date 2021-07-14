@@ -71,9 +71,10 @@ function renderMarketChart(json, side, percentChange){
     const y = []
     //then we go over the prices and make the arrays
     priceData.forEach(datum => {
-        let date = new Date(datum[0])
-        let zero = date.getMinutes() < 10 ? '0' : ''
-        x.push(date.getHours() + ":" + zero + date.getMinutes())
+      //  let date = new Date(datum[0])
+       // let zero = date.getMinutes() < 10 ? '0' : ''
+        //x.push(date.getHours() + ":" + zero + date.getMinutes())
+        x.push(datum[0])
         y.push(datum[1])
     })
     //then we check our work
@@ -101,7 +102,6 @@ function renderMarketChart(json, side, percentChange){
       if(chart){
           chart.destroy()
       }
-      
       let myChart = new Chart(
         document.getElementById(`${side}Chart`),
         config
@@ -239,42 +239,42 @@ function renderList(data) {
         removeSelectedClass()
         e.target.classList.add('selected-price-tab')
         let coinFinder = data.find(element => leftDropdown.value === element.id)
-        timeScaleChanged('left', coinFinder.price_change_percentage_24h)
+        timeScaleChanged('left', coinFinder.price_change_percentage_24h, leftDropdown.value, 1)
         coinFinder = data.find(element => rightDropdown.value === element.id)
-        timeScaleChanged('right', coinFinder.price_change_percentage_24h)
+        timeScaleChanged('right', coinFinder.price_change_percentage_24h, rightDropdown.value, 1)
     })
     document.querySelector('#price_change_7days').addEventListener('click', (e) => {
         removeSelectedClass()
         e.target.classList.add('selected-price-tab')
         let coinFinder = data.find(element => leftDropdown.value === element.id)
-        timeScaleChanged('left', coinFinder.price_change_percentage_7d_in_currency)
+        timeScaleChanged('left', coinFinder.price_change_percentage_7d_in_currency, leftDropdown.value, 7)
         coinFinder = data.find(element => rightDropdown.value === element.id)
-        timeScaleChanged('right', coinFinder.price_change_percentage_7d_in_currency)
+        timeScaleChanged('right', coinFinder.price_change_percentage_7d_in_currency, rightDropdown.value, 7)
     })
     document.querySelector('#price_change_30days').addEventListener('click', (e) => {
         removeSelectedClass()
         e.target.classList.add('selected-price-tab')
         let coinFinder = data.find(element => leftDropdown.value === element.id)
-        timeScaleChanged('left', coinFinder.price_change_percentage_30d_in_currency)
+        timeScaleChanged('left', coinFinder.price_change_percentage_30d_in_currency, leftDropdown.value, 30)
         coinFinder = data.find(element => rightDropdown.value === element.id)
-        timeScaleChanged('right', coinFinder.price_change_percentage_30d_in_currency)
+        timeScaleChanged('right', coinFinder.price_change_percentage_30d_in_currency, rightDropdown.value, 30)
     })
     document.querySelector('#price_change_1year').addEventListener('click', (e) => {
         removeSelectedClass()
         e.target.classList.add('selected-price-tab')
         let coinFinder = data.find(element => leftDropdown.value === element.id)
-        timeScaleChanged('left', coinFinder.price_change_percentage_1y_in_currency)
+        timeScaleChanged('left', coinFinder.price_change_percentage_1y_in_currency, leftDropdown.value, 365)
         coinFinder = data.find(element => rightDropdown.value === element.id)
-        timeScaleChanged('right', coinFinder.price_change_percentage_1y_in_currency)
+        timeScaleChanged('right', coinFinder.price_change_percentage_1y_in_currency, rightDropdown.value, 365)
     })
 }
 
-function timeScaleChanged(side, percentChange){
+function timeScaleChanged(side, percentChange, id, daysAgo){
     let arrow = document.querySelector(`#${side}-price-div span:first-child`)
     let changeDiv = document.querySelector(`#${side}-price-div .trending-price-change`)
     let color = percentChangeDivAndArrow(percentChange, changeDiv, arrow)
     document.querySelector(`#${side}-price-div span:last-child`).textContent = percentChange.toFixed(2) + '%'
-    //change graph
+    getMarketChart(id, daysAgo, side, percentChange)
 }
 
 function removeSelectedClass(){
