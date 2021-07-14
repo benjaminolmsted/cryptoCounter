@@ -113,12 +113,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .fomo-header {
-    font-family: 'Monument Grotesk';
-    letter-spacing: 0px;
+    font-family: 'Open Sans';
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 140%;
+    padding: 16px 0;
     color: #83b7f5;
-    font-size: 20px;
-    margin-top: 40px;
-    margin-bottom: 16px;
 }
 
 .fomo-form input, .fomo-form select {
@@ -403,12 +403,79 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #0272FA;
 }
 
+/* Youtube Style */
+
+#youtube-container {
+    overflow: auto; 
+    width: calc(100% + 80px);
+    margin-left: -40px;
+    scroll-behavior: smooth;
+}
+
+.youtube-header {
+    text-align: left;
+    margin-bottom: 8px;
+    font-family: 'Monument Grotesk';
+    font-size: 18px;
+    font-weight: 600;
+    padding-bottom: 32px;
+    margin-top: 80px;
+}
+
+#youtube-videos-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 200vw;
+    height: auto;
+    cursor: default;
+    overflow: scroll hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0px 1.25rem;
+    scrollbar-width: none;
+}
+
+.video-container {
+    min-width: 320px;
+    margin-right: 24px;
+    float: left;
+    cursor: pointer;
+}
+
+.video-container a:first-child {
+    margin-left: 40px;
+}
+
+.video-img {
+    width: 100%;
+    height: auto;
+}
+
+.video-title {
+    font-family: 'Open Sans';
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 140%;
+    padding: 16px 0;
+}
+
+.video-byline {
+    font-family: 'Open Sans';
+    font-size: 14px;
+    letter-spacing: .5px;
+    color: #888;
+    font-weight: 400;
+}
+
 /* Footer Style */
 
 footer {
     padding-top: 40px;
     font-family: 'Open Sans';
     font-size: 14px;
+    margin-top: 80px;
+    border-top: 1px solid #888;
 }
 
 /* Media Queries */
@@ -471,5 +538,9 @@ footer {
 
     .trending-price-change {
         width: auto;
+    }
+
+    .youtube-header, footer {
+        margin-top: 40px
     }
   }

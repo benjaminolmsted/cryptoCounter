@@ -8,6 +8,7 @@ const listEndpoint = '/coins/list'
 const marketsEndpoint = '/coins/markets'
 const oldDate = '/coins/bitcoin/history?date='
 const marketsQuery = '?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false&price_change_percentage=24h,7d,30d,1y' //is it possible to add more data to this request?
+const youtubeURL = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&order=viewCount&q=cryptocurrency%10for%10beginners&maxResults=10&type=video&videoDefinition=high&key=AIzaSyDLvMF8eSy7fAkAFBdA-KrnXFxbIFTrQ2o'
 
 function oldDateURL (id){
     return `/coins/${id}/history?date=`
@@ -26,6 +27,7 @@ let dataCache;
 /*entry point to app*/
 getTrending()
 getList()
+youtubeData()
 //addEventHandlers()
 //getMarketChart('bitcoin', 1, 'left')
 /*fetches*/
@@ -56,6 +58,12 @@ function getMarketChart(id, daysAgo, side){
    .then(json => {
        renderMarketChart(json, side)
    })
+}
+
+function youtubeData() {
+    fetch(youtubeURL)
+    .then(resp => resp.json())
+    .then(json => youtubeRender(json))
 }
 
 function cacheJSON(json){
@@ -94,17 +102,17 @@ function renderMarketChart(json, side){
         type: 'line',
         data,
         options: {}
-      };
+    };
 
-      const chart = Chart.getChart(`${side}Chart`);
-      if(chart){
-          chart.destroy()
-      }
+    const chart = Chart.getChart(`${side}Chart`);
+    if(chart){
+        chart.destroy()
+    }
       
-      let myChart = new Chart(
-        document.getElementById(`${side}Chart`),
-        config
-      );
+    let myChart = new Chart(
+    document.getElementById(`${side}Chart`),
+    config
+    );
 
 }
 
@@ -361,6 +369,34 @@ document.querySelector('.fomo-form').addEventListener('change', e => {
 document.querySelector('.fomo-form').addEventListener('submit', e => {
     e.preventDefault()
 })
+
+// Youtube Render Function
+function youtubeRender(videoData) {
+    
+    console.log(videoData)
+    videoData.items.forEach(element => {
+        let aLink = document.createElement('a')
+        let videoContainer = document.createElement('div')
+        let videoImg = document.createElement('img')
+        let videoTitle = document.createElement('h4')
+        let videoByline = document.createElement('p')
+
+        videoContainer.className = 'video-container'
+        videoImg.className = 'video-img'
+        videoTitle.className = 'video-title'
+        videoByline.className = 'video-byline'
+
+        videoImg.src = element.snippet.thumbnails.medium.url
+        videoTitle.textContent = element.snippet.title
+        videoByline.textContent = element.snippet.channelTitle
+        aLink.href = 'https://www.youtube.com/watch?v=' + element.id.videoId
+        aLink.target = '_blank'
+
+        videoContainer.append(videoImg, videoTitle, videoByline)
+        aLink.append(videoContainer)
+        document.querySelector('#youtube-videos-container').append(aLink)
+    })
+}
 
 
 //helper functions
