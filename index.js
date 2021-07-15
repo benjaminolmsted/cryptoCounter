@@ -8,7 +8,7 @@ const listEndpoint = '/coins/list'
 const marketsEndpoint = '/coins/markets'
 const oldDate = '/coins/bitcoin/history?date='
 const marketsQuery = '?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false&price_change_percentage=24h,7d,30d,1y' //is it possible to add more data to this request?
-const youtubeURL = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&order=viewCount&q=cryptocurrency%10for%10beginners&maxResults=10&type=video&videoDefinition=high&key=AIzaSyDLvMF8eSy7fAkAFBdA-KrnXFxbIFTrQ2o'
+const youtubeURL = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&order=viewCount&q=cryptocurrency%10for%10beginners&maxResults=10&type=video&videoDefinition=high&key=[API_KEY]'
 
 function oldDateURL (id){
     return `/coins/${id}/history?date=`
@@ -27,6 +27,8 @@ let dataCache;
 
 //Chart Styling
 Chart.defaults.elements.point = 1
+Chart.defaults.elements.line.borderWidth = 1
+Chart.defaults.plugins.legend.display = false
 
 /*entry point to app*/
 startTime()
@@ -118,8 +120,14 @@ function renderMarketChart(json, daysAgo, side, percentChange){
     const config = {
         type: 'line',
         data,
-        options: {}
-    };
+        options: {
+            animation: {
+                duration: 300
+                }
+            }
+
+        }
+    
       const chart = Chart.getChart(`${side}Chart`);
       if(chart){
           chart.destroy()
@@ -249,10 +257,19 @@ function addEventListenerToDropdown(menu, data, event, side){
     const coinID = event.target.value
     let coinFinder = data.find(element => coinID === element.id)
     menu.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
+    menu.style.backgroundColor = '#222'
     renderCoinDetails(coinFinder, side)
     getMarketChart(coinFinder.id, 1, side, coinFinder.price_change_percentage_24h)
     removeSelectedClass()
     document.querySelector('#price_change_24h').classList.add('selected-price-tab')
+
+    let lightModeToggle = document.querySelector('.slider')
+    if (lightModeToggle.dataset.checked === 'dark mode on') {
+        menu.style.backgroundColor = '#F5F5F5';
+    }else{
+        menu.style.backgroundColor = '#222';
+    }
+
 }
 
 function addEventListenerToHistoricButtons(leftDropdown, rightDropdown, data, event, qString, days){
@@ -472,17 +489,21 @@ lightModeToggle.addEventListener('click', e => {
         document.querySelector('body').style.background = '#222';
         document.querySelector('.light-mode-label').textContent = 'Dark Mode: On';
         document.querySelector('.compare-dropdown').style.color = 'white';
+        document.querySelector('.compare-dropdown').style.backgroundColor = '#222';
         document.querySelector('#dropdown-right').style.color = 'white';
+        document.querySelector('#dropdown-right').style.backgroundColor = '#222';
         document.querySelector('#trending-container').style.background = '#222';
-        document.querySelector('.price-header-tabs').style.background = 'white'
+        document.querySelector('.price-header-tabs').style.color = 'white'
     } else {
         lightModeToggle.dataset.checked = 'dark mode on';
         document.querySelector('body').style.color = '#222';
         document.querySelector('body').style.background = '#f5f5f5';
         document.querySelector('.light-mode-label').textContent = 'Light Mode: On';
         document.querySelector('.compare-dropdown').style.color = '#222';
+        document.querySelector('.compare-dropdown').style.backgroundColor = '#F5F5F5';
         document.querySelector('#dropdown-right').style.color = '#222';
+        document.querySelector('#dropdown-right').style.backgroundColor = '#F5F5F5';
         document.querySelector('#trending-container').style.background = 'white';
-        document.querySelector('.price-header-tabs').style.background = '#222'
+        document.querySelector('.price-header-tabs').style.color = '#222'
     }
 })

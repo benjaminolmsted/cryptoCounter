@@ -218,7 +218,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .compare-dropdown {
     width: calc(50% - 12px);
     color: white;
-    background-color: transparent;
+    background-color: #222;
     border-radius: 10px;
     border: 2px solid #333;
     font-family: 'Monument Grotesk';
@@ -226,6 +226,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-weight: 600;
     padding: 0px 16px 16px 72px;
     background: no-repeat 24px 20px/32px url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png);
+
+}
+
+.compare-dropdown select form-control{
+   color: black;
 }
 
 #compare-form select:first-child {
