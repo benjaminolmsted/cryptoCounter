@@ -44,8 +44,6 @@ header {
     border-radius: 10px;
     padding: 16px;
     display: flex;
-    position: sticky;
-    top: 40px;
 }
 
 header > * {
@@ -68,7 +66,6 @@ h1 {
     display: flex;
     margin-top: 40px;
     overflow: auto;
-    
 }
 
 /* Left Side Style */
@@ -298,6 +295,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-right: 24px;
 }
 
+.modal-description-hidden {
+    display: none;
+}
+
+.modal-read-more {
+    color: #0272FA;
+    cursor: pointer;
+    padding-left: 8px;
+}
+
 .compare-large-text {
     font-family: 'Monument Grotesk Semi-Mono';
     font-size: 32px;
@@ -516,8 +523,6 @@ footer {
         width: 100%;
         margin-right: 0px;
         margin-bottom: 40px;
-        position: sticky;
-        top: 24;
     }
 
     .price-header-tabs {
