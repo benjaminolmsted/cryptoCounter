@@ -1,6 +1,8 @@
 /*These are our endpoints for our fetches
 https://www.coingecko.com/api/documentations/v3
 */
+
+// const { youtubeAPI } = require('./keys')
 const baseURL = 'https://api.coingecko.com/api/v3'
 const trendingEndpoint = '/search/trending'
 const coinsEndpoint = '/coins/'
@@ -13,6 +15,8 @@ const youtubeURL = `https://youtube.googleapis.com/youtube/v3/search?part=snippe
 function oldDateURL (id){
     return `/coins/${id}/history?date=`
 }
+
+// console.log(youtubeAPI)
 
 function marketChartURL(id, days){
     return `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=${days}`
@@ -140,7 +144,6 @@ function renderMarketChart(json, daysAgo, side, percentChange){
 
 //wrapper to interate over our trending coins
 function renderTrending(trendingJSON){
-    console.log(trendingJSON)
     trendingJSON.coins.forEach(coin => renderTrendingCoin(coin.item))
 }
 
@@ -323,7 +326,6 @@ function renderModal(coinData){
 function renderCoinDetails(coin, side){
     document.querySelector(`#${side}-btn`).textContent = `Learn more about ${coin.name}`
     document.querySelector(`#${side}-btn`).dataset.id = coin.id
-    console.log(coin)
     document.querySelector(`#${side}-price-div p`).textContent = `$${formatNumber(coin.current_price.toFixed(2))}`
     let arrow = document.querySelector(`#${side}-price-div span:first-child`)
     let changeDiv = document.querySelector(`#${side}-price-div .trending-price-change`)
@@ -370,17 +372,22 @@ document.querySelector('.fomo-form').addEventListener('change', e => {
     let inputAmount = e.currentTarget.fomoDollars.value
     let priceOldBefore = e.currentTarget.startDate.value.split('-')
     let priceOldDate = `${priceOldBefore[2]}-${priceOldBefore[1]}-${priceOldBefore[0]}`
+    let date = new Date()
+    let dateObj = new Date(`${priceOldBefore[0]}-${priceOldBefore[1]}-${priceOldBefore[2]}`)
+
     let id = e.currentTarget.chooseCoin.value
     fetch(baseURL+oldDateURL(id)+priceOldDate)
     .then(resp => resp.json())
     .then(json => {
-        if(json.market_data){
+        if (json.market_data){
             let priceOldAmount = json.market_data.current_price.usd
             let priceToday = dataCache.find((name) => name.id === id).current_price
             // This is the equation
             // (input_amount / price_at_chosen_date) * price_today
             document.querySelector('.fomo-output').textContent = '$' + formatNumber(((inputAmount/priceOldAmount * priceToday)).toFixed(2)) + ' today.'
-        }else{
+        } else if (!json.market_data && dateObj > date){
+            document.querySelector('.fomo-output').textContent = "in the future. We're not fortunetellers!"
+        } else {
             document.querySelector('.fomo-output').textContent = 'before coin Gecko has data, or before the markets were open for ' + json.name
         }
     })
@@ -489,7 +496,10 @@ lightModeToggle.addEventListener('click', e => {
         document.querySelector('#dropdown-right').style.color = 'white';
         document.querySelector('#dropdown-right').style.backgroundColor = '#222';
         document.querySelector('#trending-container').style.background = '#222';
-        document.querySelector('.price-header-tabs').style.color = 'white'
+        document.querySelector('#price_change_1year').style.color = 'white';
+        document.querySelector('#price_change_30days').style.color = 'white';
+        document.querySelector('#price_change_7days').style.color = 'white';
+        document.querySelector('#price_change_24h').style.color = 'white';
     } else {
         lightModeToggle.dataset.checked = 'dark mode on';
         document.querySelector('body').style.color = '#222';
@@ -500,6 +510,10 @@ lightModeToggle.addEventListener('click', e => {
         document.querySelector('#dropdown-right').style.color = '#222';
         document.querySelector('#dropdown-right').style.backgroundColor = '#F5F5F5';
         document.querySelector('#trending-container').style.background = 'white';
-        document.querySelector('.price-header-tabs').style.color = '#222'
+        document.querySelector('#price_change_1year').style.color = '#222';
+        document.querySelector('#price_change_30days').style.color = '#222';
+        document.querySelector('#price_change_7days').style.color = '#222';
+        document.querySelector('#price_change_24h').style.color = '#222';
+
     }
 })

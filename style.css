@@ -424,6 +424,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
+    gap: 16px;
+    padding-bottom: 64px;
 }
 
 .compare-info-modal{
