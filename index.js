@@ -8,7 +8,7 @@ const listEndpoint = '/coins/list'
 const marketsEndpoint = '/coins/markets'
 const oldDate = '/coins/bitcoin/history?date='
 const marketsQuery = '?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false&price_change_percentage=24h,7d,30d,1y' //is it possible to add more data to this request?
-const youtubeURL = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&order=viewCount&q=cryptocurrency%10for%10beginners&maxResults=10&type=video&videoDefinition=high&key=AIzaSyDLvMF8eSy7fAkAFBdA-KrnXFxbIFTrQ2o'
+const youtubeURL = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&order=viewCount&q=cryptocurrency%10for%10beginners&maxResults=10&type=video&videoDefinition=high&key=[APIKEY]'
 
 function oldDateURL (id){
     return `/coins/${id}/history?date=`
