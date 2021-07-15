@@ -8,7 +8,7 @@ const listEndpoint = '/coins/list'
 const marketsEndpoint = '/coins/markets'
 const oldDate = '/coins/bitcoin/history?date='
 const marketsQuery = '?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false&price_change_percentage=24h,7d,30d,1y' //is it possible to add more data to this request?
-const youtubeURL = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&order=viewCount&q=cryptocurrency%10for%10beginners&maxResults=10&type=video&videoDefinition=high&key=[APIKEY]'
+const youtubeURL = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&order=viewCount&q=cryptocurrency%10for%10beginners&maxResults=10&type=video&videoDefinition=high&key=AIzaSyDLvMF8eSy7fAkAFBdA-KrnXFxbIFTrQ2o'
 
 function oldDateURL (id){
     return `/coins/${id}/history?date=`
@@ -155,7 +155,7 @@ function renderTrendingCoin(coin, numRank){
 
     listLi.className = 'trending-list-li'
     numberSpan.className= 'trending-num'
-    trendingName.className = 'trending-name'
+    trendingName.className ='trending-name'
     coinImg.className = 'trending-img'
     coinName.className = 'trending-coin'
     priceDiv.className = 'trending-price-change'
@@ -475,6 +475,7 @@ abbreviate_number = function(num, fixed) {
 
 document.querySelector('.modal-read-more').addEventListener('click', e => readMoreDescription())
 
+// Function for Read More functionality in the modal
 function readMoreDescription() {
     var dots = document.querySelector(".modal-description-dots");
     var moreText = document.querySelector(".modal-description-hidden");
@@ -489,4 +490,30 @@ function readMoreDescription() {
       btnText.innerHTML = "Read less";
       moreText.style.display = "inline";
     }
-  }
+}
+
+// Function for light mode toggle
+let lightModeToggle = document.querySelector('.slider')
+let lightModeInput = document.querySelector('.lightModeInput')
+
+lightModeToggle.addEventListener('click', e => {    
+    if (lightModeToggle.dataset.checked === 'dark mode on') {
+        lightModeToggle.dataset.checked = 'light mode on';
+        document.querySelector('body').style.color = 'white';
+        document.querySelector('body').style.background = '#222';
+        document.querySelector('.light-mode-label').textContent = 'Dark Mode: On';
+        document.querySelector('.compare-dropdown').style.color = 'white';
+        document.querySelector('#dropdown-right').style.color = 'white';
+        document.querySelector('#trending-container').style.background = '#222';
+        document.querySelector('.price-header-tabs').style.background = 'white'
+    } else {
+        lightModeToggle.dataset.checked = 'dark mode on';
+        document.querySelector('body').style.color = '#222';
+        document.querySelector('body').style.background = '#f5f5f5';
+        document.querySelector('.light-mode-label').textContent = 'Light Mode: On';
+        document.querySelector('.compare-dropdown').style.color = '#222';
+        document.querySelector('#dropdown-right').style.color = '#222';
+        document.querySelector('#trending-container').style.background = 'white';
+        document.querySelector('.price-header-tabs').style.background = '#222'
+    }
+})

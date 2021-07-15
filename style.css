@@ -8,11 +8,15 @@
 }
 
 body {
-    background-color: #222;
+    background: #222;
     color: white;
     margin: 40px;
     opacity: 0;
     transition: opacity 1s;
+}
+
+.base-color-white {
+    color: white;
 }
 
 .label {
@@ -77,7 +81,7 @@ h1 {
 
 #trending-container {
     border-radius: 10px;
-    background-color: #333;
+    background: #333;
     padding: 32px;
     margin-bottom: 24px;
 }
@@ -213,16 +217,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .compare-dropdown {
     width: calc(50% - 12px);
+    color: white;
     background-color: transparent;
     border-radius: 10px;
     border: 2px solid #333;
-    color: white;
     font-family: 'Monument Grotesk';
     font-size: 18px;
     font-weight: 600;
     padding: 0px 16px 16px 72px;
     background: no-repeat 24px 20px/32px url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png);
-
 }
 
 #compare-form select:first-child {
@@ -274,7 +277,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .info-modal-btn {
     cursor: pointer;
-    background-color: #222;
+    background-color: transparent;
     border-radius: 10px;
     text-align: center;
     color: #0272FA;
@@ -395,7 +398,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-family: 'Open Sans';
     font-size: 14px;
     line-height: 150%;
-    padding-bottom: 80px;
+    padding-bottom: 40px;
 }
 
 .modal-fomo {
@@ -488,12 +491,87 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* Footer Style */
 
 footer {
-    padding-top: 40px;
     font-family: 'Open Sans';
     font-size: 14px;
-    margin-top: 80px;
+    margin-top: 56px;
     border-top: 1px solid #888;
+    overflow: auto;
+    height: 80px;
 }
+
+.footer-copyright {
+    float: left;
+    line-height: 80px;
+    text-align: center;
+}
+
+#light-mode-container {
+    margin-top: 24px;
+}
+
+#light-mode-container span {
+    float: right;
+    padding: 10px 16px;
+}
+
+#light-mode-container label {
+    float: right
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #222;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #ddd;
+  }
+  
+  input:focus + .slider {
+    outline: none;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
 
 /* Media Queries */
 
