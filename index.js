@@ -309,32 +309,24 @@ function renderModal(coinData){
 
     document.querySelector('.trending-percent').textContent = coinData.market_data.price_change_percentage_24h.toFixed(2) + '%'
 
-    //document.querySelector('.modal-description').innerHTML = coinData.description.en
-
-    //Render more data
-    console.log(coinData)
-    console.log(coinData.market_data.market_cap.usd)
-    console.log(coinData.market_data.total_volume.usd)
-    console.log(coinData.market_data.circulating_supply)
-    console.log(coinData.market_data.high_24h.usd)
-    console.log(coinData.market_data.low_24h.usd)
-    console.log(coinData.market_data.ath.usd)
-    console.log(coinData.market_data.atl.usd)
-    /*MARKET CAP
-24HR HIGH
-$324.00$2,045.71
-24HR LOW
-$303.41$1,899.14
-ALL-TIME HIGH
-$686.31$4,356.99
-ALL-TIME LOW
-$0.04
-*/
-
     // document.querySelector('.modal-description').innerHTML = coinData.description.en
     document.querySelector('.modal-description-opener').innerHTML = coinData.description.en.slice(0,200)
     console.log(coinData.description.en)
     document.querySelector('.modal-description-hidden').innerHTML = coinData.description.en.slice(201,-1)
+
+    let containerDiv = document.querySelector('.w3-container')
+    // <div class="compare-info clearfix">
+    // <h4 class="info-header">Market Cap</h4>
+    // <p class="compare-large-text info-separate info-split" id='left-market-cap'>$620.9B</p>
+    // <p class="compare-large-text info-split" id='right-market-cap'>$237.1B</p>
+    // </div>
+    document.querySelector('#modal-market-cap').textContent = '$' + abbreviate_number(coinData.market_data.market_cap.usd)
+    document.querySelector('#modal-volume').textContent = '$' + abbreviate_number(coinData.market_data.total_volume.usd)
+    document.querySelector('#modal-supply').textContent = abbreviate_number(coinData.market_data.circulating_supply)
+    document.querySelector('#modal-24high').textContent = '$' + coinData.market_data.high_24h.usd
+    document.querySelector('#modal-24low').textContent = '$' + coinData.market_data.low_24h.usd
+    document.querySelector('#modal-ath').textContent = '$' + coinData.market_data.ath.usd
+    document.querySelector('#modal-atl').textContent = '$' + coinData.market_data.atl.usd
 
 }       
 

@@ -332,6 +332,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     top: 50%;
     transform: translate(-50%, -50%);
     padding: 40px;
+    overflow-x: hidden;
 }
 
 .w3-container, .w3-panel {
@@ -410,6 +411,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #0272FA;
 }
 
+.modal-info{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.compare-info-modal{
+    flex: 1 250px
+}
 /* Youtube Style */
 
 #youtube-container {
