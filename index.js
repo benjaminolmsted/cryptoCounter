@@ -8,7 +8,7 @@ const listEndpoint = '/coins/list'
 const marketsEndpoint = '/coins/markets'
 const oldDate = '/coins/bitcoin/history?date='
 const marketsQuery = '?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false&price_change_percentage=24h,7d,30d,1y' //is it possible to add more data to this request?
-const youtubeURL = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&order=viewCount&q=cryptocurrency%10for%10beginners&maxResults=10&type=video&videoDefinition=high&key=[API_KEY]'
+const youtubeURL = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&order=viewCount&q=cryptocurrency%10for%10beginners&maxResults=10&type=video&videoDefinition=high&key=${youtubeAPI}`
 
 function oldDateURL (id){
     return `/coins/${id}/history?date=`
@@ -308,13 +308,9 @@ function renderModal(coinData){
     let changeDiv = document.querySelector('.trending-price-change')
     let arrow = document.querySelector('.trending-arrow')
     percentChangeDivAndArrow(coinData.market_data.price_change_24h, changeDiv, arrow)
-
     document.querySelector('.trending-percent').textContent = coinData.market_data.price_change_percentage_24h.toFixed(2) + '%'
-
     document.querySelector('.modal-description-opener').innerHTML = coinData.description.en.slice(0,200)
-    console.log(coinData.description.en)
     document.querySelector('.modal-description-hidden').innerHTML = coinData.description.en.slice(201,-1)
-
     document.querySelector('#modal-market-cap').textContent = '$' + abbreviate_number(coinData.market_data.market_cap.usd)
     document.querySelector('#modal-volume').textContent = '$' + abbreviate_number(coinData.market_data.total_volume.usd)
     document.querySelector('#modal-supply').textContent = abbreviate_number(coinData.market_data.circulating_supply)
