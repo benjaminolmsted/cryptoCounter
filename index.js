@@ -121,6 +121,7 @@ function renderMarketChart(json, daysAgo, side, percentChange){
     };
 
       const chart = Chart.getChart(`${side}Chart`);
+      console.log(chart)
       if(chart){
           chart.destroy()
       }
