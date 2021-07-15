@@ -29,6 +29,7 @@ let dataCache;
 Chart.defaults.elements.point = 1
 
 /*entry point to app*/
+startTime()
 getTrending()
 getList()
 youtubeData()
@@ -174,7 +175,7 @@ function renderTrendingCoin(coin, numRank){
         percentSpan.textContent = percentChange + '%'
         percentChangeDivAndArrow(percentChange, priceDiv, arrowSpan)
     })
-
+    //Fetches coin details then renders them in our modal view
     listLi.addEventListener('click', e => {
         document.getElementById('id01').style.display='block';
         document.querySelector('.bg').style.filter='blur(10px)';
@@ -229,7 +230,6 @@ function renderList(data) {
     })
 
     rightDropdown.selectedIndex = 1;
-
     let event = new Event('change');
     leftDropdown.dispatchEvent(event);
     rightDropdown.dispatchEvent(event);
@@ -240,16 +240,14 @@ function renderList(data) {
         document.getElementById('id01').style.display='block';
         document.querySelector('.bg').style.filter='blur(10px)';
         getCoinDetails(event.target.dataset.id)
-        // const targetCoin = data.find(element => event.target.dataset.id === element.id)
     })
     document.querySelector('#right-btn').addEventListener('click', (event) => {
         document.getElementById('id01').style.display='block';
         document.querySelector('.bg').style.filter='blur(10px)';
         getCoinDetails(event.target.dataset.id)
-        // const targetCoin = data.find(element => event.target.dataset.id === element.id)
     })
 
-    //add historic event listeners 
+    //add historic time event listeners 
     document.querySelector('#price_change_24h').addEventListener('click', (e) => {
         removeSelectedClass()
         e.target.classList.add('selected-price-tab')
@@ -310,16 +308,40 @@ function renderModal(coinData){
     percentChangeDivAndArrow(coinData.market_data.price_change_24h, changeDiv, arrow)
 
     document.querySelector('.trending-percent').textContent = coinData.market_data.price_change_percentage_24h.toFixed(2) + '%'
+
+    //document.querySelector('.modal-description').innerHTML = coinData.description.en
+
+    //Render more data
+    console.log(coinData)
+    console.log(coinData.market_data.market_cap.usd)
+    console.log(coinData.market_data.total_volume.usd)
+    console.log(coinData.market_data.circulating_supply)
+    console.log(coinData.market_data.high_24h.usd)
+    console.log(coinData.market_data.low_24h.usd)
+    console.log(coinData.market_data.ath.usd)
+    console.log(coinData.market_data.atl.usd)
+    /*MARKET CAP
+24HR HIGH
+$324.00$2,045.71
+24HR LOW
+$303.41$1,899.14
+ALL-TIME HIGH
+$686.31$4,356.99
+ALL-TIME LOW
+$0.04
+*/
+
     // document.querySelector('.modal-description').innerHTML = coinData.description.en
     document.querySelector('.modal-description-opener').innerHTML = coinData.description.en.slice(0,200)
     console.log(coinData.description.en)
     document.querySelector('.modal-description-hidden').innerHTML = coinData.description.en.slice(201,-1)
+
 }       
 
 function renderCoinDetails(coin, side){
     document.querySelector(`#${side}-btn`).textContent = `Learn more about ${coin.name}`
     document.querySelector(`#${side}-btn`).dataset.id = coin.id
-
+    console.log(coin)
     document.querySelector(`#${side}-price-div p`).textContent = `$${formatNumber(coin.current_price.toFixed(2))}`
     let arrow = document.querySelector(`#${side}-price-div span:first-child`)
     let changeDiv = document.querySelector(`#${side}-price-div .trending-price-change`)
@@ -355,8 +377,6 @@ function startTime() {
       startTime()
     }, 500);
 }
-startTime();
-
 
 
 document.querySelector('.w3-display-topright').addEventListener('click', () => {
@@ -440,22 +460,6 @@ function formatNumber(num) {
   }
 
  // https://stackoverflow.com/questions/10599933/convert-long-number-into-abbreviated-string-in-javascript-with-a-special-shortn
-//   function abbreviateNumber(value) {
-//     var newValue = value;
-//     if (value >= 1000) {
-//         var suffixes = ["", "k", "m", "b","t"];
-//         var suffixNum = Math.floor( (""+value).length/3 );
-//         var shortValue = '';
-//         for (var precision = 2; precision >= 1; precision--) {
-//             shortValue = parseFloat( (suffixNum != 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
-//             var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
-//             if (dotLessShortValue.length <= 2) { break; }
-//         }
-//         if (shortValue % 1 != 0)  shortValue = shortValue.toFixed(1);
-//         newValue = shortValue+suffixes[suffixNum];
-//     }
-//     return newValue;
-// }
 
 abbreviate_number = function(num, fixed) {
     if (num === null) { return null; } // terminate early
