@@ -8,7 +8,7 @@ const listEndpoint = '/coins/list'
 const marketsEndpoint = '/coins/markets'
 const oldDate = '/coins/bitcoin/history?date='
 const marketsQuery = '?vs_currency=usd&order=market_cap_desc&per_page=25&page=1&sparkline=false&price_change_percentage=24h,7d,30d,1y' //is it possible to add more data to this request?
-const youtubeURL = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&order=viewCount&q=cryptocurrency%10for%10beginners&maxResults=10&type=video&videoDefinition=high&key=[APIKEY]'
+const youtubeURL = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&order=viewCount&q=cryptocurrency%10for%10beginners&maxResults=10&type=video&videoDefinition=high&key=AIzaSyDLvMF8eSy7fAkAFBdA-KrnXFxbIFTrQ2o'
 
 function oldDateURL (id){
     return `/coins/${id}/history?date=`
@@ -308,7 +308,8 @@ function renderModal(coinData){
     percentChangeDivAndArrow(coinData.market_data.price_change_24h, changeDiv, arrow)
 
     document.querySelector('.trending-percent').textContent = coinData.market_data.price_change_percentage_24h.toFixed(2) + '%'
-    document.querySelector('.modal-description').innerHTML = coinData.description.en
+
+    //document.querySelector('.modal-description').innerHTML = coinData.description.en
 
     //Render more data
     console.log(coinData)
@@ -329,6 +330,11 @@ $686.31$4,356.99
 ALL-TIME LOW
 $0.04
 */
+
+    // document.querySelector('.modal-description').innerHTML = coinData.description.en
+    document.querySelector('.modal-description-opener').innerHTML = coinData.description.en.slice(0,200)
+    console.log(coinData.description.en)
+    document.querySelector('.modal-description-hidden').innerHTML = coinData.description.en.slice(201,-1)
 
 }       
 
@@ -466,3 +472,21 @@ abbreviate_number = function(num, fixed) {
         e = d + ['', 'K', 'M', 'B', 'T'][k]; // append power
     return e;
 }
+
+document.querySelector('.modal-read-more').addEventListener('click', e => readMoreDescription())
+
+function readMoreDescription() {
+    var dots = document.querySelector(".modal-description-dots");
+    var moreText = document.querySelector(".modal-description-hidden");
+    var btnText = document.querySelector(".modal-read-more");
+  
+    if (dots.style.display === "none") {
+      dots.style.display = "inline";
+      btnText.innerHTML = "Read more";
+      moreText.style.display = "none";
+    } else {
+      dots.style.display = "none";
+      btnText.innerHTML = "Read less";
+      moreText.style.display = "inline";
+    }
+  }
