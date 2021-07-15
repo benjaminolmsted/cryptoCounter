@@ -2,7 +2,6 @@
 https://www.coingecko.com/api/documentations/v3
 */
 
-// const { youtubeAPI } = require('./keys')
 const baseURL = 'https://api.coingecko.com/api/v3'
 const trendingEndpoint = '/search/trending'
 const coinsEndpoint = '/coins/'
@@ -15,8 +14,6 @@ const youtubeURL = `https://youtube.googleapis.com/youtube/v3/search?part=snippe
 function oldDateURL (id){
     return `/coins/${id}/history?date=`
 }
-
-// console.log(youtubeAPI)
 
 function marketChartURL(id, days){
     return `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=${days}`
@@ -259,7 +256,7 @@ function addOptionToDropdown(menu, element){
 function addEventListenerToDropdown(menu, data, event, side){
     const coinID = event.target.value
     let coinFinder = data.find(element => coinID === element.id)
-    menu.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
+    menu.style.background = `no-repeat 24px 12px / 32px  url(${coinFinder.image})`
     menu.style.backgroundColor = '#222'
     renderCoinDetails(coinFinder, side)
     getMarketChart(coinFinder.id, 1, side, coinFinder.price_change_percentage_24h)
@@ -268,11 +265,10 @@ function addEventListenerToDropdown(menu, data, event, side){
 
     let lightModeToggle = document.querySelector('.slider')
     if (lightModeToggle.dataset.checked === 'dark mode on') {
-        menu.style.backgroundColor = '#F5F5F5';
+        menu.style.backgroundColor = 'white';
     }else{
         menu.style.backgroundColor = '#222';
     }
-
 }
 
 function addEventListenerToHistoricButtons(leftDropdown, rightDropdown, data, event, qString, days){
@@ -399,86 +395,85 @@ document.querySelector('.fomo-form').addEventListener('submit', e => {
 
 // Youtube Render Function
 function youtubeRender(videoData) {
-    
-    console.log(videoData)
-    videoData.items.forEach(element => {
-        let aLink = document.createElement('a')
-        let videoContainer = document.createElement('div')
-        let videoImg = document.createElement('img')
-        let videoTitle = document.createElement('h4')
-        let videoByline = document.createElement('p')
+  console.log(videoData)
+  videoData.items.forEach(element => {
+    let aLink = document.createElement('a')
+    let videoContainer = document.createElement('div')
+    let videoImg = document.createElement('img')
+    let videoTitle = document.createElement('h4')
+    let videoByline = document.createElement('p')
 
-        videoContainer.className = 'video-container'
-        videoImg.className = 'video-img'
-        videoTitle.className = 'video-title'
-        videoByline.className = 'video-byline'
+    videoContainer.className = 'video-container'
+    videoImg.className = 'video-img'
+    videoTitle.className = 'video-title'
+    videoByline.className = 'video-byline'
 
-        videoImg.src = element.snippet.thumbnails.medium.url
-        videoTitle.textContent = element.snippet.title
-        videoByline.textContent = element.snippet.channelTitle
-        aLink.href = 'https://www.youtube.com/watch?v=' + element.id.videoId
-        aLink.target = '_blank'
+    videoImg.src = element.snippet.thumbnails.medium.url
+    videoTitle.innerHTML = element.snippet.title
+    videoByline.textContent = element.snippet.channelTitle
+    aLink.href = 'https://www.youtube.com/watch?v=' + element.id.videoId
+    aLink.target = '_blank'
 
-        videoContainer.append(videoImg, videoTitle, videoByline)
-        aLink.append(videoContainer)
-        document.querySelector('#youtube-videos-container').append(aLink)
-    })
+    videoContainer.append(videoImg, videoTitle, videoByline)
+    aLink.append(videoContainer)
+    document.querySelector('#youtube-videos-container').append(aLink)
+  })
 }
 
 
 //helper functions
 function percentChangeDivAndArrow(priceChange, changedDiv, arrow){
-    if(priceChange <= 0){
-        changedDiv.classList.add('red')
-        changedDiv.classList.remove('green')
-        arrow.innerHTML = `&#9660`
-    }else{
-        changedDiv.classList.add('green')
-        changedDiv.classList.remove('red')
-        arrow.innerHTML = `&#9650`
-    }
+  if(priceChange <= 0){
+    changedDiv.classList.add('red')
+    changedDiv.classList.remove('green')
+    arrow.innerHTML = `&#9660`
+  }else{
+    changedDiv.classList.add('green')
+    changedDiv.classList.remove('red')
+    arrow.innerHTML = `&#9650`
+  }
 }
 
 // https://blog.abelotech.com/posts/number-currency-formatting-javascript/
 function formatNumber(num) {
-    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-  }
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
 
   function currencyFormat(num) {
-    return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-  }
+  return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
 
  // https://stackoverflow.com/questions/10599933/convert-long-number-into-abbreviated-string-in-javascript-with-a-special-shortn
 
 abbreviate_number = function(num, fixed) {
-    if (num === null) { return null; } // terminate early
-    if (num === 0) { return '0'; } // terminate early
-    fixed = (!fixed || fixed < 0) ? 0 : fixed; // number of decimal places to show
-    var b = (num).toPrecision(2).split("e"), // get power
-        k = b.length === 1 ? 0 : Math.floor(Math.min(b[1].slice(1), 14) / 3), // floor at decimals, ceiling at trillions
-        c = k < 1 ? num.toFixed(0 + fixed) : (num / Math.pow(10, k * 3) ).toFixed(1 + fixed), // divide by power
-        d = c < 0 ? c : Math.abs(c), // enforce -0 is 0
-        e = d + ['', 'K', 'M', 'B', 'T'][k]; // append power
-    return e;
+  if (num === null) { return null; } // terminate early
+  if (num === 0) { return '0'; } // terminate early
+  fixed = (!fixed || fixed < 0) ? 0 : fixed; // number of decimal places to show
+  var b = (num).toPrecision(2).split("e"), // get power
+    k = b.length === 1 ? 0 : Math.floor(Math.min(b[1].slice(1), 14) / 3), // floor at decimals, ceiling at trillions
+    c = k < 1 ? num.toFixed(0 + fixed) : (num / Math.pow(10, k * 3) ).toFixed(1 + fixed), // divide by power
+    d = c < 0 ? c : Math.abs(c), // enforce -0 is 0
+    e = d + ['', 'K', 'M', 'B', 'T'][k]; // append power
+  return e;
 }
 
 document.querySelector('.modal-read-more').addEventListener('click', e => readMoreDescription())
 
 // Function for Read More functionality in the modal
 function readMoreDescription() {
-    var dots = document.querySelector(".modal-description-dots");
-    var moreText = document.querySelector(".modal-description-hidden");
-    var btnText = document.querySelector(".modal-read-more");
-  
-    if (dots.style.display === "none") {
-      dots.style.display = "inline";
-      btnText.innerHTML = "Read more";
-      moreText.style.display = "none";
-    } else {
-      dots.style.display = "none";
-      btnText.innerHTML = "Read less";
-      moreText.style.display = "inline";
-    }
+  var dots = document.querySelector(".modal-description-dots");
+  var moreText = document.querySelector(".modal-description-hidden");
+  var btnText = document.querySelector(".modal-read-more");
+
+  if (dots.style.display === "none") {
+    dots.style.display = "inline";
+    btnText.innerHTML = "Read more";
+    moreText.style.display = "none";
+  } else {
+    dots.style.display = "none";
+    btnText.innerHTML = "Read less";
+    moreText.style.display = "inline";
+  }
 }
 
 // Function for light mode toggle
@@ -486,34 +481,38 @@ let lightModeToggle = document.querySelector('.slider')
 let lightModeInput = document.querySelector('.lightModeInput')
 
 lightModeToggle.addEventListener('click', e => {    
-    if (lightModeToggle.dataset.checked === 'dark mode on') {
-        lightModeToggle.dataset.checked = 'light mode on';
-        document.querySelector('body').style.color = 'white';
-        document.querySelector('body').style.background = '#222';
-        document.querySelector('.light-mode-label').textContent = 'Dark Mode: On';
-        document.querySelector('.compare-dropdown').style.color = 'white';
-        document.querySelector('.compare-dropdown').style.backgroundColor = '#222';
-        document.querySelector('#dropdown-right').style.color = 'white';
-        document.querySelector('#dropdown-right').style.backgroundColor = '#222';
-        document.querySelector('#trending-container').style.background = '#222';
-        document.querySelector('#price_change_1year').style.color = 'white';
-        document.querySelector('#price_change_30days').style.color = 'white';
-        document.querySelector('#price_change_7days').style.color = 'white';
-        document.querySelector('#price_change_24h').style.color = 'white';
-    } else {
-        lightModeToggle.dataset.checked = 'dark mode on';
-        document.querySelector('body').style.color = '#222';
-        document.querySelector('body').style.background = '#f5f5f5';
-        document.querySelector('.light-mode-label').textContent = 'Light Mode: On';
-        document.querySelector('.compare-dropdown').style.color = '#222';
-        document.querySelector('.compare-dropdown').style.backgroundColor = '#F5F5F5';
-        document.querySelector('#dropdown-right').style.color = '#222';
-        document.querySelector('#dropdown-right').style.backgroundColor = '#F5F5F5';
-        document.querySelector('#trending-container').style.background = 'white';
-        document.querySelector('#price_change_1year').style.color = '#222';
-        document.querySelector('#price_change_30days').style.color = '#222';
-        document.querySelector('#price_change_7days').style.color = '#222';
-        document.querySelector('#price_change_24h').style.color = '#222';
-
-    }
+  if (lightModeToggle.dataset.checked === 'dark mode on') {
+      lightModeToggle.dataset.checked = 'light mode on';
+      document.querySelector('body').style.color = 'white';
+      document.querySelector('body').style.background = '#222';
+      document.querySelector('.light-mode-label').textContent = 'Dark Mode: On';
+      document.querySelector('.compare-dropdown').style.color = 'white';
+      document.querySelector('.compare-dropdown').style.backgroundColor = '#222';
+      document.querySelector('#dropdown-right').style.color = 'white';
+      document.querySelector('#dropdown-right').style.backgroundColor = '#222';
+      document.querySelector('#trending-container').style.background = '#333';
+      document.querySelector('#price_change_1year').style.color = 'white';
+      document.querySelector('#price_change_30days').style.color = 'white';
+      document.querySelector('#price_change_7days').style.color = 'white';
+      document.querySelector('#price_change_24h').style.color = 'white';
+      document.querySelector('.w3-modal-content').style.backgroundColor = '#333';
+      document.querySelector('.w3-modal').style.backgroundColor = '#333';
+  } else {
+      lightModeToggle.dataset.checked = 'dark mode on';
+      document.querySelector('body').style.color = '#222';
+      document.querySelector('body').style.background = 'white';
+      document.querySelector('.light-mode-label').textContent = 'Light Mode: On';
+      document.querySelector('.compare-dropdown').style.color = '#222';
+      document.querySelector('.compare-dropdown').style.backgroundColor = 'white';
+      document.querySelector('#dropdown-right').style.color = '#222';
+      document.querySelector('#dropdown-right').style.backgroundColor = 'white';
+      document.querySelector('#trending-container').style.background = '#efefef';
+      document.querySelector('#price_change_1year').style.color = '#222';
+      document.querySelector('#price_change_30days').style.color = '#222';
+      document.querySelector('#price_change_7days').style.color = '#222';
+      document.querySelector('#price_change_24h').style.color = '#222';
+      document.querySelector('.w3-modal-content').style.backgroundColor = '#f5f5f5';
+      document.querySelector('.w3-modal').style.backgroundColor = '#f5f5f5';
+      
+  }
 })

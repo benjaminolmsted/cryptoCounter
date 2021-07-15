@@ -20,18 +20,17 @@ body {
 }
 
 .label {
-    font-family: 'Monument Grotesk Semi-Mono';
+    font-family: 'Fira Code', monospace;
     text-transform: uppercase;
     font-size: 14px;
     letter-spacing: 1px;
-    padding-bottom: 24px;
 }
 
 .title-header {
-    font-family: 'Monument Grotesk';
-    font-size: 18px;
-    font-weight: 600;
-    padding-bottom: 32px;
+    font-family: 'Fira Code', monospace;
+    font-size: 20px;
+    font-weight: 400;
+    padding-bottom: 24px;
     text-align: center;
 }
 
@@ -46,7 +45,7 @@ body {
 header {
     border: 1px #333 solid;
     border-radius: 10px;
-    padding: 16px;
+    padding: 24px;
     display: flex;
 }
 
@@ -106,7 +105,7 @@ h1 {
     color: white;
     margin-top: 24px;
     width: 60%;
-    line-height: 200%;
+    line-height: 240%;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -115,9 +114,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .fomo-header {
-    font-family: 'Open Sans';
-    font-size: 18px;
-    font-weight: 600;
+    font-family: 'Fira Code', monospace;
+    font-size: 20px;
+    font-weight: 400;
     line-height: 140%;
     padding: 16px 0;
     color: #83b7f5;
@@ -161,12 +160,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .trending-num {
-    font-family: 'Monument Grotesk Semi-Mono';
+    font-family: 'Fira Code', monospace;
     color: #888;
     font-size: 18px;
     margin-right: 24px;
     float: left;
-    margin-top: 4px;
+    margin-top: 12px;
     width: 5%
 }
 
@@ -180,11 +179,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .trending-coin {
-    font-family: 'Monument Grotesk';
+    font-family: 'Fira Code', monospace;
     font-size: 18px;
-    font-weight: 600;
-    padding-bottom: 24px;
-    margin-top: 4px;
+    font-weight: 400;
+    margin-top: 12px;
     text-align: left;
     float: left;
     white-space: nowrap;
@@ -194,7 +192,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .trending-price-change {
-    font-family: 'Monument Grotesk Semi-Mono';
+    font-family: 'Fira Code', monospace;
     font-size: 18px;
     width: 40%;
 }
@@ -202,7 +200,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #trending-container .trending-price-change {
     float: right;
     text-align: right;
-    padding-top: 4px;
+    margin-top: 12px;
 }
 
 /* Compare Section Style */
@@ -221,11 +219,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: #222;
     border-radius: 10px;
     border: 2px solid #333;
-    font-family: 'Monument Grotesk';
+    font-family: 'Fira Code', monospace;
     font-size: 18px;
-    font-weight: 600;
-    padding: 0px 16px 16px 72px;
-    background: no-repeat 24px 20px/32px url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png);
+    font-weight: 400;
+    padding: 16px 28px 16px 64px;
+    background: no-repeat 24px 12px / 32px url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png);
 
 }
 
@@ -238,14 +236,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .info-header {
-    font-family: 'Monument Grotesk Semi-Mono';
+    font-family: 'Fira Code', monospace;
     text-transform: uppercase;
     font-size: 14px;
     letter-spacing: 1px;
-    padding-bottom: 24px;
+    padding-bottom: 16px;
     color: #888;
     border-bottom: 1px solid #888;
-    margin-bottom: 8px;
+    margin-bottom: 24px;
 }
 
 .price-header-tabs {
@@ -260,8 +258,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .selected-price-tab {
     background-color: rgb(5,132,135);
     border-radius: 5px;
-    padding: 1px 12px;
-    margin-top: -1px;
+    padding: 7px 12px 5px;
+    margin-top: -7px;
 }
 
 .compare-info {
@@ -287,8 +285,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     text-align: center;
     color: #0272FA;
     border: none;
-    font-family: 'Monument Grotesk';
-    font-weight: 600;
+    font-family: 'Fira Code', monospace;
+    font-weight: 400;
     letter-spacing: -1px;
     text-align: left;
     margin-bottom: 40px;
@@ -314,7 +312,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .compare-large-text {
-    font-family: 'Monument Grotesk Semi-Mono';
+    font-family: 'Fira Code', monospace;
+    font-weight: 400;
     font-size: 32px;
     letter-spacing: -1px;
     padding-bottom: 24px;
@@ -344,7 +343,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .w3-container, .w3-panel {
-    background: #333;
     padding: 0;
     width: calc(50vw - 80px);
     max-height: 75vh;
@@ -373,14 +371,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .modal-header {
-    font-family: 'Monument Grotesk';
+    font-family: 'Fira Code', monospace;
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 32px;
 }
 
 .modal-header-price {
-    font-family: 'Monument Grotesk Semi-Mono';
+    font-family: 'Fira Code', monospace;
     text-transform: uppercase;
     font-size: 18px;
     letter-spacing: 1px;
@@ -441,11 +439,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .youtube-header {
+    font-family: 'Fira Code', monospace;
     text-align: left;
-    font-family: 'Monument Grotesk';
-    font-size: 18px;
-    font-weight: 600;
-    padding-bottom: 32px;
+    font-size: 20px;
+    font-weight: 400;
+    padding-bottom: 24px;
     margin-top: 80px;
 }
 
@@ -493,9 +491,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-weight: 600;
     line-height: 140%;
     padding: 16px 0;
+    overflow: ellipse;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
 }
 
 .video-byline {
@@ -595,7 +594,7 @@ footer {
 
 @media only screen and (max-width: 1080px) {
     header {
-        position:relative;
+        position: relative;
         top: 0
     }
 
@@ -629,10 +628,16 @@ footer {
         margin-left: 0;
         display: block;
         margin-top: 0px;
+        margin-bottom: 8px;
     }
 
     .price-header-tabs:first-child {
         margin-top: 16px;
+    }
+
+    .selected-price-tab {
+        margin-top: -12px;
+        margin-bottom: 8px;
     }
 
     #fomo-container {
@@ -686,6 +691,6 @@ footer {
     }
 
     .youtube-header, footer {
-        margin-top: 40px
+        margin-top: 80px;
     }
   }
