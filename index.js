@@ -25,6 +25,9 @@ const trendingList = document.querySelector('#trending-list-ul')
 
 let dataCache;
 
+//Chart Styling
+Chart.defaults.elements.point = 1
+
 /*entry point to app*/
 getTrending()
 getList()
@@ -101,7 +104,6 @@ function renderMarketChart(json, daysAgo, side, percentChange){
         y.push(datum[1])
     })
     let chartColor = (percentChange < 0) ?  '#FA250A' : '#0AFB83'
-
     const labels = x
     const data = {
         labels: labels,
@@ -113,13 +115,11 @@ function renderMarketChart(json, daysAgo, side, percentChange){
           data: y,
         }]
       };
-
     const config = {
         type: 'line',
         data,
         options: {}
     };
-
       const chart = Chart.getChart(`${side}Chart`);
       if(chart){
           chart.destroy()
@@ -172,13 +172,7 @@ function renderTrendingCoin(coin, numRank){
         let percentChange = coinDetail.market_data.price_change_percentage_24h
         percentChange = percentChange.toFixed(2)
         percentSpan.textContent = percentChange + '%'
-        if(percentChange <= 0){
-            priceDiv.classList.add('red')
-            arrowSpan.innerHTML = `&#9660`
-        }else{
-            priceDiv.classList.add('green')
-            arrowSpan.innerHTML = `&#9650`
-        }
+        percentChangeDivAndArrow(percentChange, priceDiv, arrowSpan)
     })
 
     listLi.addEventListener('click', e => {
@@ -371,25 +365,19 @@ document.querySelector('.fomo-form').addEventListener('change', e => {
     let inputAmount = e.currentTarget.fomoDollars.value
     let priceOldBefore = e.currentTarget.startDate.value.split('-')
     let priceOldDate = `${priceOldBefore[2]}-${priceOldBefore[1]}-${priceOldBefore[0]}`
-
     let id = e.currentTarget.chooseCoin.value
-    
     fetch(baseURL+oldDateURL(id)+priceOldDate)
     .then(resp => resp.json())
     .then(json => {
         if(json.market_data){
             let priceOldAmount = json.market_data.current_price.usd
-            
             let priceToday = dataCache.find((name) => name.id === id).current_price
-            
             // This is the equation
             // (input_amount / price_at_chosen_date) * price_today
-        
             document.querySelector('.fomo-output').textContent = '$' + formatNumber(((inputAmount/priceOldAmount * priceToday)).toFixed(2)) + ' today.'
         }else{
             document.querySelector('.fomo-output').textContent = 'before coin Gecko has data, or before the markets were open for ' + json.name
         }
-
     })
 })
 
@@ -449,22 +437,22 @@ function formatNumber(num) {
   }
 
  // https://stackoverflow.com/questions/10599933/convert-long-number-into-abbreviated-string-in-javascript-with-a-special-shortn
-  function abbreviateNumber(value) {
-    var newValue = value;
-    if (value >= 1000) {
-        var suffixes = ["", "k", "m", "b","t"];
-        var suffixNum = Math.floor( (""+value).length/3 );
-        var shortValue = '';
-        for (var precision = 2; precision >= 1; precision--) {
-            shortValue = parseFloat( (suffixNum != 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
-            var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
-            if (dotLessShortValue.length <= 2) { break; }
-        }
-        if (shortValue % 1 != 0)  shortValue = shortValue.toFixed(1);
-        newValue = shortValue+suffixes[suffixNum];
-    }
-    return newValue;
-}
+//   function abbreviateNumber(value) {
+//     var newValue = value;
+//     if (value >= 1000) {
+//         var suffixes = ["", "k", "m", "b","t"];
+//         var suffixNum = Math.floor( (""+value).length/3 );
+//         var shortValue = '';
+//         for (var precision = 2; precision >= 1; precision--) {
+//             shortValue = parseFloat( (suffixNum != 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
+//             var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
+//             if (dotLessShortValue.length <= 2) { break; }
+//         }
+//         if (shortValue % 1 != 0)  shortValue = shortValue.toFixed(1);
+//         newValue = shortValue+suffixes[suffixNum];
+//     }
+//     return newValue;
+// }
 
 abbreviate_number = function(num, fixed) {
     if (num === null) { return null; } // terminate early
