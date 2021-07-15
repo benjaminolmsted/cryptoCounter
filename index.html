@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/jpg" href="favicon.png"/>
     
@@ -24,15 +24,15 @@
         <div class="w3-container">
             <span class="w3-button w3-display-topright">&times;</span>
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png" alt="" class="modal-img">
-            <h2 class="modal-header"><span class="modal-header-name">Bitcoin</span><span class="modal-header-ticker">BTC</span></h2>
+            <h2 class="modal-header"><span class="modal-header-name"></span><span class="modal-header-ticker"></span></h2>
             
-            <p class="compare-large-text">$32,962.88</p>
+            <p class="compare-large-text"></p>
             <div class="trending-price-change">
-                <span class="trending-arrow">▲</span>
-                <span class="trending-percent">5,390%</span>
+                <span class="trending-arrow"></span>
+                <span class="trending-percent"></span>
             </div>
             
-            <p class="modal-description">The world’s first cryptocurrency, Bitcoin is stored and exchanged securely on the internet through a digital ledger known as a blockchain. Bitcoins are divisible into smaller units known as satoshis — each satoshi is worth 0.00000001 bitcoin.</p>
+            <p class="modal-description"></p>
         </div>
         </div>
     </div>
@@ -60,93 +60,95 @@
             <h2 class="title-header">Compare Crypto</h2>
             <p class="title-description">Put two cryptocurrencies head-to-head.</p>
 
-            <div id="compare-dropdown-container">
-                <form id="compare-form">
-                    <select name="coin-left" class="compare-dropdown" id="dropdown-left">
-                    </select>
-
-                    <select name="coin-right" class="compare-dropdown" id="dropdown-right">
-                    </select>
-                </form>
-
-            </div>
-
-            <div id="info-section">
-                <button class="info-modal-btn info-separate info-split" id="left-btn">Learn more about Bitcoin</button>
-                  
-                <button class="info-modal-btn info-split" id='right-btn'>Learn more about Ethereum</button>
-                
-                <div class="compare-info clearfix">
-                    <h4 class="info-header">Price Change 
-                        <span class="price-header-tabs" id="price_change_1year">1 Yr</span>
-                        <span class="price-header-tabs" id="price_change_30days">30 Days</span>
-                        <span class="price-header-tabs" id="price_change_7days">7 Days</span>
-                        <span class="price-header-tabs selected-price-tab" id="price_change_24h">24 Hrs</span>
-                    </h4>
-
-                    <div class="info-separate info-split" id="left-price-div">
-                        <p class="compare-large-text">$32,962.88</p>
-                        <div class="trending-price-change">
-                            <span class="trending-arrow">&#9650;</span>
-                            <span class="trending-percent">5,390%</span>
-                        </div>
-                        <div class="price-graph" id="left-graph">
-                            <canvas id="leftChart"></canvas>
-                        </div>
-                    </div>
+            <div class="compare-info-container">
+                <div id="compare-dropdown-container">
+                    <form id="compare-form">
+                        <select name="coin-left" class="compare-dropdown" id="dropdown-left">
+                        </select>
+    
+                        <select name="coin-right" class="compare-dropdown" id="dropdown-right">
+                        </select>
+                    </form>
+    
+                </div>
+    
+                <div id="info-section">
+                    <button class="info-modal-btn info-separate info-split" id="left-btn">Learn more about Bitcoin</button>
+                      
+                    <button class="info-modal-btn info-split" id='right-btn'>Learn more about Ethereum</button>
                     
-                    <div class="info-split" id="right-price-div">
-                        <p class="compare-large-text">$2,029.53</p>
-                        <div class="trending-price-change">
-                            <span class="trending-arrow">&#9650;</span>
-                            <span class="trending-percent">5,390%</span>
+                    <div class="compare-info clearfix">
+                        <h4 class="info-header">Price Change 
+                            <span class="price-header-tabs" id="price_change_1year">1 Yr</span>
+                            <span class="price-header-tabs" id="price_change_30days">30 Days</span>
+                            <span class="price-header-tabs" id="price_change_7days">7 Days</span>
+                            <span class="price-header-tabs selected-price-tab" id="price_change_24h">24 Hrs</span>
+                        </h4>
+    
+                        <div class="info-separate info-split" id="left-price-div">
+                            <p class="compare-large-text">$32,962.88</p>
+                            <div class="trending-price-change">
+                                <span class="trending-arrow">&#9650;</span>
+                                <span class="trending-percent">5,390%</span>
+                            </div>
+                            <div class="price-graph" id="left-graph">
+                                <canvas id="leftChart"></canvas>
+                            </div>
                         </div>
-                        <div class="price-graph" id="right-graph">
-                            <canvas id="rightChart"></canvas>
+                        
+                        <div class="info-split" id="right-price-div">
+                            <p class="compare-large-text">$2,029.53</p>
+                            <div class="trending-price-change">
+                                <span class="trending-arrow">&#9650;</span>
+                                <span class="trending-percent">5,390%</span>
+                            </div>
+                            <div class="price-graph" id="right-graph">
+                                <canvas id="rightChart"></canvas>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="compare-info clearfix">
-                    <h4 class="info-header">Market Cap</h4>
-                    <p class="compare-large-text info-separate info-split" id='left-market-cap'>$620.9B</p>
-                    <p class="compare-large-text info-split" id='right-market-cap'>$237.1B</p>
-                </div>
-
-                <div class="compare-info clearfix" >
-                    <h4 class="info-header">Volume</h4>
-                    <p class="compare-large-text info-separate info-split" id='left-volume'>$23.1B</p>
-                    <p class="compare-large-text info-split" id='right-volume'>$16.9B</p>
-                </div>
-
-                <div class="compare-info clearfix">
-                    <h4 class="info-header">Circulating Supply</h4>
-                    <p class="compare-large-text info-separate info-split" id='left-circulating-supply'>18.8M</p>
-                    <p class="compare-large-text info-split" id='right-circulating-supply'>116.7M</p>
-                </div>
-
-                <div class="compare-info clearfix" >
-                    <h4 class="info-header">24Hr High</h4>
-                    <p class="compare-large-text info-separate info-split" id='left-24-high'>$23.1B</p>
-                    <p class="compare-large-text info-split" id='right-24-high'>$16.9B</p>
-                </div>
-
-                <div class="compare-info clearfix" >
-                    <h4 class="info-header">24Hr Low</h4>
-                    <p class="compare-large-text info-separate info-split" id = 'left-24-low'>18.8M</p>
-                    <p class="compare-large-text info-split" id = 'right-24-low'>116.7M</p>
-                </div>
-
-                <div class="compare-info clearfix" >
-                    <h4 class="info-header">All-Time High</h4>
-                    <p class="compare-large-text info-separate info-split" id='left-ath'>$23.1B</p>
-                    <p class="compare-large-text info-split" id='right-ath'>$16.9B</p>
-                </div>
-
-                <div class="compare-info clearfix" >
-                    <h4 class="info-header">All-Time Low</h4>
-                    <p class="compare-large-text info-separate info-split" id = 'left-atl'>18.8M</p>
-                    <p class="compare-large-text info-split" id = 'right-atl'>116.7M</p>
+    
+                    <div class="compare-info clearfix">
+                        <h4 class="info-header">Market Cap</h4>
+                        <p class="compare-large-text info-separate info-split" id='left-market-cap'>$620.9B</p>
+                        <p class="compare-large-text info-split" id='right-market-cap'>$237.1B</p>
+                    </div>
+    
+                    <div class="compare-info clearfix" >
+                        <h4 class="info-header">Volume</h4>
+                        <p class="compare-large-text info-separate info-split" id='left-volume'>$23.1B</p>
+                        <p class="compare-large-text info-split" id='right-volume'>$16.9B</p>
+                    </div>
+    
+                    <div class="compare-info clearfix">
+                        <h4 class="info-header">Circulating Supply</h4>
+                        <p class="compare-large-text info-separate info-split" id='left-circulating-supply'>18.8M</p>
+                        <p class="compare-large-text info-split" id='right-circulating-supply'>116.7M</p>
+                    </div>
+    
+                    <div class="compare-info clearfix" >
+                        <h4 class="info-header">24Hr High</h4>
+                        <p class="compare-large-text info-separate info-split" id='left-24-high'>$23.1B</p>
+                        <p class="compare-large-text info-split" id='right-24-high'>$16.9B</p>
+                    </div>
+    
+                    <div class="compare-info clearfix" >
+                        <h4 class="info-header">24Hr Low</h4>
+                        <p class="compare-large-text info-separate info-split" id = 'left-24-low'>18.8M</p>
+                        <p class="compare-large-text info-split" id = 'right-24-low'>116.7M</p>
+                    </div>
+    
+                    <div class="compare-info clearfix" >
+                        <h4 class="info-header">All-Time High</h4>
+                        <p class="compare-large-text info-separate info-split" id='left-ath'>$23.1B</p>
+                        <p class="compare-large-text info-split" id='right-ath'>$16.9B</p>
+                    </div>
+    
+                    <div class="compare-info clearfix" >
+                        <h4 class="info-header">All-Time Low</h4>
+                        <p class="compare-large-text info-separate info-split" id = 'left-atl'>18.8M</p>
+                        <p class="compare-large-text info-split" id = 'right-atl'>116.7M</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -162,6 +164,7 @@
     </div>
 
     <h2 class="youtube-header">Crypto for Beginners</h2>
+    <p class="youtube-description">Need a little help getting started on your crypto journey? Here are a few of our favorite resources.</p>
     <div id="youtube-container">
         <div id="youtube-videos-container">
         </div>
