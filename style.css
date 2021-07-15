@@ -472,6 +472,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-weight: 600;
     line-height: 140%;
     padding: 16px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .video-byline {
