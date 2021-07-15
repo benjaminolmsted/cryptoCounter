@@ -112,7 +112,6 @@ function renderMarketChart(json, daysAgo, side, percentChange){
           label: 'Price',
           backgroundColor: chartColor,
           borderColor: chartColor,
-
           data: y,
         }]
       };
@@ -148,11 +147,6 @@ function renderTrendingCoin(coin, numRank){
     let arrowSpan = document.createElement('span')
     let percentSpan = document.createElement('span')
 
-    trendingName.append(coinImg, coinName)
-    priceDiv.append(arrowSpan, percentSpan)
-    listLi.append(numberSpan, trendingName, priceDiv)
-    trendingList.append(listLi)
-
     listLi.className = 'trending-list-li'
     numberSpan.className= 'trending-num'
     trendingName.className = 'trending-name'
@@ -161,10 +155,13 @@ function renderTrendingCoin(coin, numRank){
     priceDiv.className = 'trending-price-change'
     arrowSpan.className = 'trending-arrow'
     percentSpan.className = 'trending-percent'
-
     numberSpan.textContent = '0' + (coin.score + 1)
     coinImg.src = coin.small
     coinName.textContent = coin.name
+    trendingName.append(coinImg, coinName)
+    priceDiv.append(arrowSpan, percentSpan)
+    listLi.append(numberSpan, trendingName, priceDiv)
+    trendingList.append(listLi)
     
     //gotta fetch the details then set percent change
     fetch(baseURL + coinsEndpoint + coin.id)
@@ -183,6 +180,9 @@ function renderTrendingCoin(coin, numRank){
     })
 }
 
+//renders and populates the dropdown lists for our main compare crypto view
+//adds a bunch of listeners that rely on the fetched data
+//we could refactor to use the cached data
 function renderList(data) {
     let leftDropdown = document.querySelector('#dropdown-left')
     let rightDropdown = document.querySelector('#dropdown-right')
@@ -191,42 +191,18 @@ function renderList(data) {
     let dropdownCalc = document.querySelector('.choose-coin')
     
     data.forEach(element => {
-        let dropdownOptionRight = document.createElement('option')
-        let dropdownOptionLeft = document.createElement('option')
-        let dropdownOptionCalc = document.createElement('option')
-        
-        dropdownOptionRight.value = element.id
-        dropdownOptionRight.textContent = element.name
-        dropdownOptionLeft.value = element.id
-        dropdownOptionLeft.textContent = element.name
-
-        dropdownOptionCalc.value = element.id
-        dropdownOptionCalc.textContent = element.name
-
-        leftDropdown.appendChild(dropdownOptionLeft)
-        rightDropdown.appendChild(dropdownOptionRight)
-        dropdownCalc.appendChild(dropdownOptionCalc)
+        addOptionToDropdown(leftDropdown, element)
+        addOptionToDropdown(rightDropdown, element)
+        addOptionToDropdown(dropdownCalc, element)
     })
 
     // Event listener to change image in the dropdown
     leftDropdown.addEventListener('change', event => {            
-        const coinID = event.target.value
-        let coinFinder = data.find(element => coinID === element.id)
-        dropdownImgLeft.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
-        renderCoinDetails(coinFinder, 'left')
-        getMarketChart(coinFinder.id, 1, 'left', coinFinder.price_change_percentage_24h)
-        removeSelectedClass()
-        document.querySelector('#price_change_24h').classList.add('selected-price-tab')
+        addEventListenerToDropdown(leftDropdown, data, event, 'left')
     })
 
     rightDropdown.addEventListener('change', event => {            
-        const coinID = event.target.value
-        let coinFinder = data.find(element => coinID === element.id)
-        dropdownImgRight.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
-        renderCoinDetails(coinFinder, 'right')
-        getMarketChart(coinFinder.id, 1, 'right', coinFinder.price_change_percentage_24h)
-        removeSelectedClass()
-        document.querySelector('#price_change_24h').classList.add('selected-price-tab')
+        addEventListenerToDropdown(rightDropdown, data, event, 'right')
     })
 
     rightDropdown.selectedIndex = 1;
@@ -249,53 +225,62 @@ function renderList(data) {
 
     //add historic time event listeners 
     document.querySelector('#price_change_24h').addEventListener('click', (e) => {
-        removeSelectedClass()
-        e.target.classList.add('selected-price-tab')
-        let coinFinder = data.find(element => leftDropdown.value === element.id)
-        timeScaleChanged('left', coinFinder.price_change_percentage_24h, leftDropdown.value, 1)
-        coinFinder = data.find(element => rightDropdown.value === element.id)
-        timeScaleChanged('right', coinFinder.price_change_percentage_24h, rightDropdown.value, 1)
+        addEventListenerToHistoricButtons(leftDropdown, rightDropdown, data, e, 'price_change_percentage_24h', 1)
     })
     document.querySelector('#price_change_7days').addEventListener('click', (e) => {
-        removeSelectedClass()
-        e.target.classList.add('selected-price-tab')
-        let coinFinder = data.find(element => leftDropdown.value === element.id)
-        timeScaleChanged('left', coinFinder.price_change_percentage_7d_in_currency, leftDropdown.value, 7)
-        coinFinder = data.find(element => rightDropdown.value === element.id)
-        timeScaleChanged('right', coinFinder.price_change_percentage_7d_in_currency, rightDropdown.value, 7)
+        addEventListenerToHistoricButtons(leftDropdown, rightDropdown, data, e, 'price_change_percentage_7d_in_currency', 7)
     })
     document.querySelector('#price_change_30days').addEventListener('click', (e) => {
-        removeSelectedClass()
-        e.target.classList.add('selected-price-tab')
-        let coinFinder = data.find(element => leftDropdown.value === element.id)
-        timeScaleChanged('left', coinFinder.price_change_percentage_30d_in_currency, leftDropdown.value, 30)
-        coinFinder = data.find(element => rightDropdown.value === element.id)
-        timeScaleChanged('right', coinFinder.price_change_percentage_30d_in_currency, rightDropdown.value, 30)
+        addEventListenerToHistoricButtons(leftDropdown, rightDropdown, data, e, 'price_change_percentage_30d_in_currency', 30)
     })
     document.querySelector('#price_change_1year').addEventListener('click', (e) => {
-        removeSelectedClass()
-        e.target.classList.add('selected-price-tab')
-        let coinFinder = data.find(element => leftDropdown.value === element.id)
-        timeScaleChanged('left', coinFinder.price_change_percentage_1y_in_currency, leftDropdown.value, 365)
-        coinFinder = data.find(element => rightDropdown.value === element.id)
-        timeScaleChanged('right', coinFinder.price_change_percentage_1y_in_currency, rightDropdown.value, 365)
+        addEventListenerToHistoricButtons(leftDropdown, rightDropdown, data, e, 'price_change_percentage_1y_in_currency', 365)
     })
+}
+//helpers for renderList()
+function addOptionToDropdown(menu, element){
+    let dropdownOption = document.createElement('option')
+    dropdownOption.value = element.id
+    dropdownOption.textContent = element.name
+    menu.appendChild(dropdownOption)
+}
+
+function addEventListenerToDropdown(menu, data, event, side){
+    const coinID = event.target.value
+    let coinFinder = data.find(element => coinID === element.id)
+    menu.style.background = `no-repeat 24px 20px/32px  url(${coinFinder.image})`
+    renderCoinDetails(coinFinder, side)
+    getMarketChart(coinFinder.id, 1, side, coinFinder.price_change_percentage_24h)
+    removeSelectedClass()
+    document.querySelector('#price_change_24h').classList.add('selected-price-tab')
+}
+
+function addEventListenerToHistoricButtons(leftDropdown, rightDropdown, data, event, qString, days){
+    removeSelectedClass()
+    event.target.classList.add('selected-price-tab')
+    let coinFinder = data.find(element => leftDropdown.value === element.id)
+    timeScaleChanged('left', coinFinder[qString], leftDropdown.value, days)
+    coinFinder = data.find(element => rightDropdown.value === element.id)
+    timeScaleChanged('right', coinFinder[qString], rightDropdown.value, days)
 }
 
 function timeScaleChanged(side, percentChange, id, daysAgo){
     let arrow = document.querySelector(`#${side}-price-div span:first-child`)
     let changeDiv = document.querySelector(`#${side}-price-div .trending-price-change`)
-    let color = percentChangeDivAndArrow(percentChange, changeDiv, arrow)
     document.querySelector(`#${side}-price-div span:last-child`).textContent = percentChange.toFixed(2) + '%'
+    percentChangeDivAndArrow(percentChange, changeDiv, arrow)
     getMarketChart(id, daysAgo, side, percentChange)
 }
 
+//resets historic buttons to all be unselected
 function removeSelectedClass(){
     document.querySelector('#price_change_24h').classList.remove('selected-price-tab')
     document.querySelector('#price_change_7days').classList.remove('selected-price-tab')
     document.querySelector('#price_change_30days').classList.remove('selected-price-tab')
     document.querySelector('#price_change_1year').classList.remove('selected-price-tab')
 }
+
+//our function for rendering detailed coin in a modal popup
 
 function renderModal(coinData){
     console.log(coinData)
@@ -309,17 +294,10 @@ function renderModal(coinData){
 
     document.querySelector('.trending-percent').textContent = coinData.market_data.price_change_percentage_24h.toFixed(2) + '%'
 
-    // document.querySelector('.modal-description').innerHTML = coinData.description.en
     document.querySelector('.modal-description-opener').innerHTML = coinData.description.en.slice(0,200)
     console.log(coinData.description.en)
     document.querySelector('.modal-description-hidden').innerHTML = coinData.description.en.slice(201,-1)
 
-    let containerDiv = document.querySelector('.w3-container')
-    // <div class="compare-info clearfix">
-    // <h4 class="info-header">Market Cap</h4>
-    // <p class="compare-large-text info-separate info-split" id='left-market-cap'>$620.9B</p>
-    // <p class="compare-large-text info-split" id='right-market-cap'>$237.1B</p>
-    // </div>
     document.querySelector('#modal-market-cap').textContent = '$' + abbreviate_number(coinData.market_data.market_cap.usd)
     document.querySelector('#modal-volume').textContent = '$' + abbreviate_number(coinData.market_data.total_volume.usd)
     document.querySelector('#modal-supply').textContent = abbreviate_number(coinData.market_data.circulating_supply)
@@ -327,7 +305,6 @@ function renderModal(coinData){
     document.querySelector('#modal-24low').textContent = '$' + coinData.market_data.low_24h.usd
     document.querySelector('#modal-ath').textContent = '$' + coinData.market_data.ath.usd
     document.querySelector('#modal-atl').textContent = '$' + coinData.market_data.atl.usd
-
 }       
 
 function renderCoinDetails(coin, side){
