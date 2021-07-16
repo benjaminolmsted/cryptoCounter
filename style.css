@@ -1,11 +1,4 @@
 /* Global Style */
-.red {
- color: #FA250A
-}
-
-.green {
-    color: #0AFB83
-}
 
 body {
     background: #222;
@@ -17,6 +10,14 @@ body {
 
 .base-color-white {
     color: white;
+}
+
+.red {
+    color: #FA250A
+}
+
+.green {
+    color: #0AFB83
 }
 
 .label {
@@ -42,6 +43,7 @@ body {
 }
 
 /* Header Style */
+
 header {
     border: 1px #333 solid;
     border-radius: 10px;
@@ -83,60 +85,6 @@ h1 {
     background: #333;
     padding: 32px;
     margin-bottom: 24px;
-}
-
-.w3-modal-content {
-    margin: 0;
-}
-
-/* Fomo Container Style */
-
-#fomo-container {
-    background: linear-gradient(90deg, rgba(1,56,122,1) 20%, rgba(6,105,145,1) 63%, rgba(5,132,135,1) 100%);
-    padding: 96px 24px 120px 40px;
-    margin-left: -40px;
-    width: calc(100% + 80px);
-    margin-top: 80px;
-}
-
-.fomo-form {
-    font-family: 'Open Sans';
-    font-size: 24px;
-    color: white;
-    margin-top: 24px;
-    width: 60%;
-    line-height: 240%;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
-}
-
-.fomo-header {
-    font-family: 'Fira Code', monospace;
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 140%;
-    padding: 16px 0;
-    color: #83b7f5;
-}
-
-.fomo-form input, .fomo-form select {
-    background-color: #efefef;
-    color: #000;
-    border: none;
-    height: 40px;
-    width: 180px;
-    text-align: center;
-    border-radius: 5px;
-    margin: 0 8px;
-    padding: 0 12px;
-    font-size: 20px;
-}
-
-.fomo-output {
-    color: #D4FA1B;
 }
 
 .trending-list-li {
@@ -203,6 +151,80 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top: 12px;
 }
 
+
+
+/* Fomo Container Style */
+
+#fomo-container {
+    background: linear-gradient(90deg, rgba(1,56,122,1) 20%, rgba(6,105,145,1) 63%, rgba(5,132,135,1) 100%);
+    padding: 100px 24px;
+    margin-left: -40px;
+    width: calc(100% + 80px);
+    margin-top: 80px;
+    overflow: auto;
+}
+
+.fomo-form {
+    font-family: 'Open Sans';
+    font-size: 24px;
+    color: white;
+    width: 60%;
+    line-height: 240%;
+    float: left;
+    margin-right: 15%;
+}
+
+.fomo-form-img {
+    width: 8%;
+    float: left;
+    padding-top: 40px;
+    filter: drop-shadow(4px 17px 33px rgba(0,0,0,.5));
+}
+
+.floating {  
+    animation-name: floating;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes floating {
+    from { transform: translate(0,  0px); }
+    65%  { transform: translate(0, 10px); }
+    to   { transform: translate(0, -0px); }    
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.fomo-header {
+    font-family: 'Fira Code', monospace;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 140%;
+    padding: 16px 0;
+    color: #83b7f5;
+}
+
+.fomo-form input, .fomo-form select {
+    background-color: #efefef;
+    color: #000;
+    border: none;
+    height: 40px;
+    width: 180px;
+    text-align: left;
+    border-radius: 5px;
+    margin: 0 8px;
+    padding: 0 12px;
+    font-size: 20px;
+}
+
+.fomo-output {
+    color: #D4FA1B;
+}
+
 /* Compare Section Style */
 
 #compare-container {
@@ -224,7 +246,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-weight: 400;
     padding: 16px 28px 16px 64px;
     background: no-repeat 24px 12px / 32px url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png);
-
 }
 
 .compare-dropdown select form-control{
@@ -354,6 +375,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .w3-modal-content {
     background-color: #333;
+    margin: 0;
 }
 
 .w3-display-topright {
@@ -429,7 +451,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .compare-info-modal{
     flex: 1 250px
 }
-/* Youtube Style */
+/* Youtube Section Style */
 
 #youtube-container {
     overflow: auto; 
@@ -540,15 +562,15 @@ footer {
     display: inline-block;
     width: 60px;
     height: 34px;
-  }
-  
-  .switch input {
+}
+
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
-  }
-  
-  .slider {
+}
+
+.slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -557,9 +579,9 @@ footer {
     bottom: 0;
     background-color: #fff;
     transition: .4s;
-  }
-  
-  .slider:before {
+}
+
+.slider:before {
     position: absolute;
     content: "";
     height: 26px;
@@ -568,29 +590,29 @@ footer {
     bottom: 4px;
     background-color: #222;
     transition: .4s;
-  }
-  
-  input:checked + .slider {
-    background-color: #ddd;
-  }
-  
-  input:focus + .slider {
-    outline: none;
-  }
-  
-  input:checked + .slider:before {
-    transform: translateX(26px);
-  }
-  
-  .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  }
+}
 
-/* Media Queries */
+input:checked + .slider {
+    background-color: #ddd;
+}
+
+input:focus + .slider {
+    outline: none;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Media Query */
 
 @media only screen and (max-width: 1080px) {
     header {
@@ -649,7 +671,13 @@ footer {
     }
 
     .fomo-form {
-        width: 100%
+        width: 100%;
+        float: none;
+    }
+    
+    .fomo-form-img {
+        float: left;
+        display: none;
     }
 
     #compare-container {
