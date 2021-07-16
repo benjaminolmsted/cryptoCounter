@@ -1,5 +1,7 @@
 # CryptoCounter App
 
+<img src="https://p193.p3.n0.cdn.getcloudapp.com/items/Z4uK8GLm/8e39ba8a-f01e-4f84-8654-3465a1b6f134.jpg?source=viewer&v=209a5a8d697895bf37558811f3f0166a" alt="cryptoCounterApp preview">
+
 The CryptoCounter app lets users view top cryptocurrencies in the market today.
 
 Features include:
@@ -9,14 +11,14 @@ Features include:
 - See what your investment would've been if you invested early
 - For beginners, find video resources to help you get started with cryptocurrencies
 
-# Contributors
+## Contributors
 
-## Benjamin Olmsted
-Github: <a href="https://github.com/benjaminolmsted/">benjaminolmsted</a>
+### Benjamin Olmsted
+Github: <a href="https://github.com/benjaminolmsted/">benjaminolmsted</a><br>
 Email: <a href="mailto:benjamin.olmsted@gmail.com">benjamin.olmsted@gmail.com</a>
 
-## John Kim
-Github: <a href="https://github.com/jyk595/">jyk595</a>
+### John Kim
+Github: <a href="https://github.com/jyk595/">jyk595</a><br>
 Email: <a href="mailto:yjk595@gmail.com">jyk595@gmail.com</a>
 
 ## Hosted Live App
