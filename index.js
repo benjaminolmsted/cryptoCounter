@@ -189,8 +189,6 @@ function renderTrendingCoin(coin, numRank){
 function renderList(data) {
     let leftDropdown = document.querySelector('#dropdown-left')
     let rightDropdown = document.querySelector('#dropdown-right')
-    let dropdownImgRight = document.querySelector('#dropdown-right')
-    let dropdownImgLeft = document.querySelector('#dropdown-left')
     let dropdownCalc = document.querySelector('.choose-coin')
     
     data.forEach(element => {
@@ -212,8 +210,9 @@ function renderList(data) {
         addEventListenerToDropdown(rightDropdown, data, event, 'right')
     })
 
+    //set right drop down and fire off an event that causes the display to update
     rightDropdown.selectedIndex = 1;
-    let event = new Event('change');
+    const event = new Event('change');
     leftDropdown.dispatchEvent(event);
     rightDropdown.dispatchEvent(event);
     document.querySelector('.fomo-form').dispatchEvent(event);
@@ -302,7 +301,6 @@ function removeSelectedClass(){
 
 // Function for rendering detailed coin in a modal popup
 function renderModal(coinData){
-    console.log(coinData)
     document.querySelector('.modal-img').src = coinData.image.small
     document.querySelector('.modal-header-name').textContent = coinData.name
     document.querySelector('.modal-header-ticker').textContent = coinData.symbol.toUpperCase()
