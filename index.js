@@ -22,7 +22,7 @@ function marketChartURL(id, days){
 /* document selectors */
 const body = document.querySelector('body')
 const trendingList = document.querySelector('#trending-list-ul')
-
+const tickerDiv = document.querySelector('#ticker-scroller')
 
 let dataCache;
 
@@ -202,6 +202,10 @@ function renderList(data) {
         addOptionToDropdown(leftDropdown, element)
         addOptionToDropdown(rightDropdown, element)
         addOptionToDropdown(dropdownCalc, element)
+        addToTicker(element)
+    })
+    data.forEach(element => {
+        addToTicker(element)
     })
 
     // Event listener to change image in the dropdown
@@ -313,10 +317,10 @@ function renderModal(coinData){
     document.querySelector('#modal-market-cap').textContent = '$' + abbreviate_number(coinData.market_data.market_cap.usd)
     document.querySelector('#modal-volume').textContent = '$' + abbreviate_number(coinData.market_data.total_volume.usd)
     document.querySelector('#modal-supply').textContent = abbreviate_number(coinData.market_data.circulating_supply)
-    document.querySelector('#modal-24high').textContent = '$' + coinData.market_data.high_24h.usd
-    document.querySelector('#modal-24low').textContent = '$' + coinData.market_data.low_24h.usd
-    document.querySelector('#modal-ath').textContent = '$' + coinData.market_data.ath.usd
-    document.querySelector('#modal-atl').textContent = '$' + coinData.market_data.atl.usd
+    document.querySelector('#modal-24high').textContent = '$' + coinData.market_data.high_24h.usd.toFixed(2)
+    document.querySelector('#modal-24low').textContent = '$' + coinData.market_data.low_24h.usd.toFixed(2)
+    document.querySelector('#modal-ath').textContent = '$' + coinData.market_data.ath.usd.toFixed(2)
+    document.querySelector('#modal-atl').textContent = '$' + coinData.market_data.atl.usd.toFixed(2)
 }       
 
 function renderCoinDetails(coin, side){
@@ -516,3 +520,24 @@ lightModeToggle.addEventListener('click', e => {
       
   }
 })
+
+
+//Ticker
+function addToTicker(coin){
+    let divTickerUnit = document.createElement('div')
+    let tickerSymbol = document.createElement('span')
+    let tickerArrow = document.createElement('span')
+    let tickerPercent = document.createElement('span')
+    divTickerUnit.className = "ticker-unit"
+    tickerSymbol.className = "ticker-symbol"
+    tickerArrow.className = "ticker-arrow"
+    tickerPercent.className = "ticker-percent"
+    console.log(coin)
+    let percentChanged = coin.price_change_percentage_24h
+    tickerSymbol.textContent = coin.symbol.toUpperCase()
+    percentChangeDivAndArrow(percentChanged, divTickerUnit, tickerArrow)
+    tickerPercent.textContent = percentChanged.toFixed(4) + '%'
+
+    divTickerUnit.append(tickerSymbol, tickerArrow, tickerPercent)
+    tickerDiv.append(divTickerUnit)                
+}
