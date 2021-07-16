@@ -380,7 +380,6 @@ document.querySelector('.w3-display-topright').addEventListener('click', () => {
 
 // Youtube Render Function
 function youtubeRender(videoData) {
-  console.log(videoData)
   videoData.items.forEach(element => {
     let aLink = document.createElement('a')
     let videoContainer = document.createElement('div')
@@ -487,7 +486,6 @@ function addToTicker(coin){
     tickerSymbol.className = "ticker-symbol"
     tickerArrow.className = "ticker-arrow"
     tickerPercent.className = "ticker-percent"
-    console.log(coin)
     let percentChanged = coin.price_change_percentage_24h
     tickerSymbol.textContent = coin.symbol.toUpperCase()
     percentChangeDivAndArrow(percentChanged, divTickerUnit, tickerArrow)
